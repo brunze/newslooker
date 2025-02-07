@@ -1,0 +1,26 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+ruby_webassembly:
+  url: "https://web.dev/blog/ruby-on-rails-on-webassembly?hl=en"
+  text: "Ruby on Rails on WebAssembly: The Full-Stack In-Browser Journey"
+  blurb: "This post takes DHH’s famous “build a blog in 15 minutes” tutorial and embeds it in the browser using WebAssembly. While this is a bit of a parlor trick, it shows the possibilities of WASM. The author goes on to show how the magic happens and points out more practical and exciting use cases."
+
+ruby_thread_contention:
+  url: "https://island94.org/2025/01/ruby-thread-contention-simply-gvl-queuing"
+  text: "Ruby 'Thread Contention' is Simply GVL Queuing"
+  blurb: "We’ve enjoyed a great run of articles on the depths of Ruby’s implementation recently and it continues with this look at how threads wait politely for their time to shine, thanks to Ruby’s GVL (Global VM Lock). But all this politeness has a downside.. so you may have to get involved and tune things a bit."
+
+ruby_insert_performance:
+  url: "https://patshaughnessy.net/2025/2/4/inserting-one-new-element-into-hashes-of-varying-sizes"
+  text: "Inserting One New Element into Hashes of Varying Sizes"
+  blurb: "An experiment from Pat’s work on updating Ruby Under a Microscope shows how performance can spike on specific insertions into a hash. It’s explained well and is a detail worth knowing."
+
+ruby_remove_gvl:
+  url: "https://byroot.github.io/ruby/performance/2025/01/29/so-you-want-to-remove-the-gvl.html"
+  text: "So You Want to Remove Ruby's GVL?"
+  blurb: "The GVL is a CRuby implementation detail that prevents Ruby code from running in parallel across multiple threads, and there have been many calls over the years to get rid of it in order to improve concurrency and performance. Is it that easy? And would it make much difference? Ruby committer Jean Boussier digs in."
+
+ruby_puma_release:
+  url: "https://github.com/puma/puma/releases/tag/v6.6.0"
+  text: "Puma 6.6.0: Ruby's Fast, Multi-Threaded HTTP 1.1 Server"
+  blurb: "Now essentially the de facto server for Rack apps, Puma continues to be well maintained with v6.6 offering some benefits for JRuby users, “a few debug/logging/observability related goodies”, and a new after_refork hook for recreating any resources shut down prior to a refork (e.g. database connections)."
