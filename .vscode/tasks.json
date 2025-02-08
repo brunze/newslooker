@@ -8,6 +8,12 @@
       "label": "Run `bundle install`.",
       "type": "shell",
       "problemMatcher": []
+    },
+    {
+      "command": "bundle exec rails db:fixtures:load",
+      "label": "Load fixtures.",
+      "type": "shell",
+      "problemMatcher": []
     }
   ]
 }

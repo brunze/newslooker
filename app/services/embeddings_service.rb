@@ -3,7 +3,7 @@ class EmbeddingsService
   EMBEDDING_DIMENSIONS = 1024
 
   def self.default
-    @default_instance ||= EmbeddingsService.new
+    @default_instance ||= self.new
   end
 
   def fetch(source_text)
@@ -25,5 +25,5 @@ class EmbeddingsService
     )
   end
 
-  class ServiceTemporarilyUnavailable < StandardError; end
+  class ServiceTemporarilyUnavailable < RuntimeError; end
 end

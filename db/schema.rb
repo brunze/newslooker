@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_113432) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_193455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
+
+  create_table "issues", force: :cascade do |t|
+    t.bigint "newsletter_id", null: false
+    t.string "url", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["newsletter_id"], name: "index_issues_on_newsletter_id"
+  end
 
   create_table "links", force: :cascade do |t|
     t.string "url", null: false
@@ -22,5 +31,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_113432) do
     t.vector "embedding", limit: 1024
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "issue_id", null: false
+    t.index ["issue_id"], name: "index_links_on_issue_id"
   end
+
+  create_table "newsletters", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "scraper_config", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "links", "issues"
 end

@@ -1,6 +1,8 @@
 class Link < ApplicationRecord
-  validates :url, presence: true
+  validates :url, presence: true, http_url: true
   validates :text, presence: true
+
+  belongs_to :issue
 
   has_neighbors :embedding
 

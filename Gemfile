@@ -43,6 +43,8 @@ gem "thruster", require: false
 gem "pgvector"
 gem "neighbor"
 gem "mistral-ai"
+gem "nokogiri"
+gem "excon"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

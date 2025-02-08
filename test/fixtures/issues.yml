@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+ruby_weekly_737:
+  url: "https://rubyweekly.com/issues/737"
+  title: "Ruby Weekly #737"
+  newsletter: ruby_weekly
+
+ruby_weekly_736:
+  url: "https://rubyweekly.com/issues/736"
+  title: "Ruby Weekly #736"
+  newsletter: ruby_weekly
