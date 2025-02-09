@@ -7,12 +7,61 @@
       "command": "bundle install",
       "label": "Run `bundle install`.",
       "type": "shell",
+      "icon": {
+        "id": "ruby"
+      },
+      "problemMatcher": []
+    },
+    {
+      "command": "bundle exec rails db:migrate",
+      "label": "Migrate databases.",
+      "type": "shell",
+      "icon": {
+        "id": "database"
+      },
       "problemMatcher": []
     },
     {
       "command": "bundle exec rails db:fixtures:load",
       "label": "Load fixtures.",
       "type": "shell",
+      "icon": {
+        "id": "database"
+      },
+      "problemMatcher": []
+    },
+    {
+      "command": "bundle exec rails test ${file}",
+      "label": "Run all tests in current file.",
+      "type": "shell",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "icon": {
+        "id": "checklist",
+      },
+      "problemMatcher": []
+    },
+    {
+      "command": "bundle exec rails test",
+      "label": "Run all tests in project.",
+      "type": "shell",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "icon": {
+        "id": "checklist",
+      },
       "problemMatcher": []
     }
   ]

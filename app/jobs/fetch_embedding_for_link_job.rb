@@ -3,8 +3,8 @@ class FetchEmbeddingForLinkJob < ApplicationJob
 
   retry_on HTTPService::Error, wait: 5.minutes, attempts: 3
 
-  def perform(link)
-    link.fetch_embedding!
+  def perform(link, ...)
+    link.fetch_embedding!(...)
   rescue ActiveRecord::RecordNotFound
     # ignore
   end
