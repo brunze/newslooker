@@ -5,18 +5,17 @@ class Issue < ApplicationRecord
   belongs_to :newsletter
   has_many :links
 
-  def extract_links!(scraper_config: newsletter.scraper_config, html_service: HTTPService.default)
+  def extract_links(scraper_config: newsletter.scraper_config, html_service: HTTPService.default)
     Scraper
       .new(**scraper_config.deep_symbolize_keys)
-      .call(html(html_service:))
+      .call(html_service.get_html(url))
       .each do |link_data|
-        links.create!(link_data)
+        links.build(link_data)
       end
+    nil
   end
 
-  private
-
-  def html(html_service: HTTPService.default)
-    @html ||= html_service.get_html(url)
+  def extract_links!
+    # TODO
   end
 end
