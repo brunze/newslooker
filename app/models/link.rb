@@ -11,18 +11,22 @@ class Link < ApplicationRecord
     self.nearest_neighbors(:embedding, needle_embedding, distance: "euclidean").first(limit)
   end
 
-  def fetch_embedding(embeddings: EmbeddingsService.default)
-    embeddings.fetch(source_for_embeddings)
-  end
-
-  def fetch_embedding!(embeddings: EmbeddingsService.default)
-    update!(embedding: fetch_embedding(embeddings:)) if embedding.blank?
+  def fetch_embedding(force: false, embeddings: EmbeddingsService.default)
+    self.embedding = embeddings.fetch(source_for_embeddings) if embedding.nil? || force
     nil
   end
 
-  private
+  def fetch_embedding!(...)
+    fetch_embedding(...)
+    update!(embedding:)
+    nil
+  end
 
   def source_for_embeddings
     "#{text} #{blurb}".squish
+  end
+
+  def replaces?(other)
+    self.url == other.url && self.source_for_embeddings != other.source_for_embeddings
   end
 end
