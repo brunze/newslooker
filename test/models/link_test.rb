@@ -7,6 +7,23 @@ class LinkTest < ActiveSupport::TestCase
     end
   end
 
+  describe "validations" do
+    it "is invalid without a URL" do
+      assert build(:link, url: nil).invalid?
+    end
+
+    it "is invalid if the URL is not unique, per issue" do
+      link = create(:link)
+
+      assert build(:link, url: link.url, issue: link.issue).invalid?
+      assert build(:link, url: link.url, issue: build(:issue)).valid?
+    end
+
+    it "is invalid without a text" do
+      assert build(:link, text: nil).invalid?
+    end
+  end
+
   describe "#fetch_embedding" do
     it "fetches an embedding for the link text and blurb if an embedding doesn't already exist" do
       link = Link.new(

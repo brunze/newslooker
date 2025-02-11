@@ -6,4 +6,14 @@ class NewsletterTest < ActiveSupport::TestCase
       assert build(:newsletter).valid?
     end
   end
+
+  describe "validations" do
+    it "is invalid without a name" do
+      assert build(:newsletter, name: nil).invalid?
+    end
+
+    it "is invalid without a scraper configuration" do
+      assert build(:newsletter, scraper_config: nil).invalid?
+    end
+  end
 end

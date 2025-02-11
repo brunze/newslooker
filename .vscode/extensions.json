@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "sleistner.vscode-fileutils"
+    "sleistner.vscode-fileutils",
+    "gruntfuggly.todo-tree"
   ]
 }

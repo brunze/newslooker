@@ -7,6 +7,38 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  describe "validations" do
+    it "is invalid without a URL" do
+      assert build(:issue, url: nil).invalid?
+    end
+
+    it "is invalid if the URL is not unique, per newsletter" do
+      issue = create(:issue)
+
+      assert build(:issue, url: issue.url, newsletter: issue.newsletter).invalid?
+      assert build(:issue, url: issue.url, newsletter: build(:newsletter)).valid?
+    end
+
+    it "is invalid without a number" do
+      assert build(:issue, number: nil).invalid?
+    end
+
+    it "is invalid if the number is not unique, per newsletter" do
+      issue = create(:issue)
+
+      assert build(:issue, number: issue.number, newsletter: issue.newsletter).invalid?
+      assert build(:issue, number: issue.number, newsletter: build(:newsletter)).valid?
+    end
+
+    it "is invalid without a title" do
+      assert build(:issue, title: nil).invalid?
+    end
+
+    it "is invalid without a publication date" do
+      assert build(:issue, published_at: nil).invalid?
+    end
+  end
+
   describe "link extraction" do
     it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
       issue = build(:issue)

@@ -1,11 +1,9 @@
 FactoryBot.define do
   factory :issue do
-    transient do
-      sequence(:number)
-    end
-
     newsletter
-    title { "#{newsletter.name} — Issue #{number}" }
+    sequence(:number)
+    title { "#{newsletter.name} — ##{number}" }
     url { "https://#{newsletter.name.parameterize}.example.com/issues/#{number}" }
+    published_at { 1.week.ago }
   end
 end
