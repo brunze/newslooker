@@ -1,9 +1,9 @@
 class Scraper
-  def initialize(link_block_selector:, link_selector:, link_blurb_selector:, cleanup_regexes: [])
-    @link_block_selector = link_block_selector.to_str
-    @link_selector = link_selector.to_str
-    @link_blurb_selector = link_blurb_selector.to_str
-    @cleanup_regexes = cleanup_regexes.map { Regexp.new(it) }
+  def initialize(scraper_config)
+    @link_block_selector = scraper_config.link_block_selector.to_str
+    @link_selector = scraper_config.link_selector.to_str
+    @link_blurb_selector = scraper_config.link_blurb_selector.to_str
+    @cleanup_regexes = scraper_config.cleanup_regexes.map { Regexp.new(it) }
   end
 
   def call(html)

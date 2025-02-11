@@ -6,11 +6,6 @@ FactoryBot.define do
 
       "#{subject} #{periodicity}"
     end
-    scraper_config { {
-      link_block_selector: ".link-block",
-      link_selector: "a",
-      link_blurb_selector: ".blurb",
-      cleanup_regexes: []
-    } }
+    scraper_config
   end
 end

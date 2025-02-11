@@ -36,11 +36,11 @@ class IssueTest < ActiveSupport::TestCase
       http_service_mock = Minitest::Mock.new
       http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-      scraper_config = {
+      scraper_config = ScraperConfig.new(
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
-      }
+      )
       issue_links = issue.updated_links(scraper_config:, http: http_service_mock)
 
       assert_same_attributes [
@@ -53,11 +53,11 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     it "uses the issue's newsletter scraper config by default" do
-      newsletter = build(:newsletter, scraper_config: {
+      newsletter = build(:newsletter, scraper_config: ScraperConfig.new(
         link_block_selector: ".link-container",
         link_selector: "a.main",
         link_blurb_selector: "p"
-      })
+      ))
       issue = build(:issue, newsletter:)
 
       mock_html = <<~HTML
@@ -126,11 +126,11 @@ class IssueTest < ActiveSupport::TestCase
         http_service_mock = Minitest::Mock.new
         http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-        scraper_config = {
+        scraper_config = ScraperConfig.new(
           link_block_selector: ".link-block",
           link_selector: "a",
           link_blurb_selector: ".blurb"
-        }
+        )
         issue.updated_links(scraper_config:, http: http_service_mock)
 
         modified_mock_html = <<~HTML
@@ -197,11 +197,11 @@ class IssueTest < ActiveSupport::TestCase
       http_service_mock = Minitest::Mock.new
       http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-      scraper_config = {
+      scraper_config = ScraperConfig.new(
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
-      }
+      )
       issue.extract_links!(scraper_config:, http: http_service_mock)
 
       assert_same_attributes [

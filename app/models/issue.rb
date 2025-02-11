@@ -7,7 +7,7 @@ class Issue < ApplicationRecord
 
   def scraped_links(scraper_config: newsletter.scraper_config, http: HTTPService.default)
     Scraper
-      .new(**scraper_config.deep_symbolize_keys)
+      .new(scraper_config)
       .call(http.get_html(url))
       .map { |link_data| Link.new(link_data) }
   end
