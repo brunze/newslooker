@@ -7,7 +7,7 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#extract_links" do
+  describe "link extraction" do
     it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
       issue = build(:issue)
 
@@ -33,15 +33,15 @@ class IssueTest < ActiveSupport::TestCase
           </body>
         </html>
       HTML
-      html_service_mock = Minitest::Mock.new
-      html_service_mock.expect(:get_html, mock_html, [ issue.url ])
+      http_service_mock = Minitest::Mock.new
+      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
       scraper_config = {
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
       }
-      issue_links = issue.updated_links(scraper_config:, html_service: html_service_mock)
+      issue_links = issue.updated_links(scraper_config:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
@@ -49,7 +49,7 @@ class IssueTest < ActiveSupport::TestCase
         Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
       ], issue_links.to_a, only: [ :url, :text, :blurb ]
 
-      html_service_mock.verify
+      http_service_mock.verify
     end
 
     it "uses the issue's newsletter scraper config by default" do
@@ -84,17 +84,17 @@ class IssueTest < ActiveSupport::TestCase
           </body>
         </html>
       HTML
-      html_service_mock = Minitest::Mock.new
-      html_service_mock.expect(:get_html, mock_html, [ issue.url ])
+      http_service_mock = Minitest::Mock.new
+      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-      issue_links = issue.updated_links(html_service: html_service_mock)
+      issue_links = issue.updated_links(http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Main Link 1", blurb: "Example blurb 1."),
         Link.new(issue:, url: "https://example.com/link-3", text: "Main Link 3", blurb: "Example blurb 3.")
       ], issue_links.to_a, only: [ :url, :text, :blurb ]
 
-      html_service_mock.verify
+      http_service_mock.verify
     end
 
     describe "when it encounters a link that had already been previously extracted" do
@@ -123,15 +123,15 @@ class IssueTest < ActiveSupport::TestCase
             </body>
           </html>
         HTML
-        html_service_mock = Minitest::Mock.new
-        html_service_mock.expect(:get_html, mock_html, [ issue.url ])
+        http_service_mock = Minitest::Mock.new
+        http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
         scraper_config = {
           link_block_selector: ".link-block",
           link_selector: "a",
           link_blurb_selector: ".blurb"
         }
-        issue.updated_links(scraper_config:, html_service: html_service_mock)
+        issue.updated_links(scraper_config:, http: http_service_mock)
 
         modified_mock_html = <<~HTML
           <!DOCTYPE html>
@@ -155,9 +155,9 @@ class IssueTest < ActiveSupport::TestCase
             </body>
           </html>
         HTML
-        html_service_mock.expect(:get_html, modified_mock_html, [ issue.url ])
+        http_service_mock.expect(:get_html, modified_mock_html, [ issue.url ])
 
-        updated_links = issue.updated_links(scraper_config:, html_service: html_service_mock)
+        updated_links = issue.updated_links(scraper_config:, http: http_service_mock)
 
         assert_same_attributes [
           Link.new(issue:, url: "https://example.com/link-1", text: "Link 1, different text", blurb: "Example blurb 1."),
@@ -165,7 +165,7 @@ class IssueTest < ActiveSupport::TestCase
           Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
         ], updated_links, only: [ :url, :text, :blurb ]
 
-        html_service_mock.verify
+        http_service_mock.verify
       end
     end
 
@@ -194,15 +194,15 @@ class IssueTest < ActiveSupport::TestCase
           </body>
         </html>
       HTML
-      html_service_mock = Minitest::Mock.new
-      html_service_mock.expect(:get_html, mock_html, [ issue.url ])
+      http_service_mock = Minitest::Mock.new
+      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
       scraper_config = {
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
       }
-      issue.extract_links!(scraper_config:, html_service: html_service_mock)
+      issue.extract_links!(scraper_config:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
@@ -210,7 +210,7 @@ class IssueTest < ActiveSupport::TestCase
         Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
       ], issue.links.to_a, only: [ :url, :text, :blurb ]
 
-      html_service_mock.verify
+      http_service_mock.verify
 
       modified_html = <<~HTML
         <!DOCTYPE html>
@@ -226,9 +226,9 @@ class IssueTest < ActiveSupport::TestCase
           </body>
         </html>
       HTML
-      html_service_mock.expect(:get_html, modified_html, [ issue.url ])
+      http_service_mock.expect(:get_html, modified_html, [ issue.url ])
 
-      issue.extract_links!(scraper_config:, html_service: html_service_mock)
+      issue.extract_links!(scraper_config:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
@@ -236,7 +236,7 @@ class IssueTest < ActiveSupport::TestCase
         Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
       ], issue.links.to_a, only: [ :url, :text, :blurb ]
 
-      html_service_mock.verify
+      http_service_mock.verify
     end
   end
 end

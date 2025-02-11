@@ -5,10 +5,10 @@ class Issue < ApplicationRecord
   belongs_to :newsletter
   has_many :links, dependent: :destroy
 
-  def scraped_links(scraper_config: newsletter.scraper_config, html_service: HTTPService.default)
+  def scraped_links(scraper_config: newsletter.scraper_config, http: HTTPService.default)
     Scraper
       .new(**scraper_config.deep_symbolize_keys)
-      .call(html_service.get_html(url))
+      .call(http.get_html(url))
       .map { |link_data| Link.new(link_data) }
   end
 
