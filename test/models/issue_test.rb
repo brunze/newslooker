@@ -29,14 +29,6 @@ class IssueTest < ActiveSupport::TestCase
       assert build(:issue, number: issue.number, newsletter: issue.newsletter).invalid?
       assert build(:issue, number: issue.number, newsletter: build(:newsletter)).valid?
     end
-
-    it "is invalid without a title" do
-      assert build(:issue, title: nil).invalid?
-    end
-
-    it "is invalid without a publication date" do
-      assert build(:issue, published_at: nil).invalid?
-    end
   end
 
   describe "link extraction" do

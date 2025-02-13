@@ -1,11 +1,13 @@
 class Issue < ApplicationRecord
   validates :number, presence: true, numericality: { only_integer: true, greater_than: 0 }, uniqueness: { scope: :newsletter_id }
   validates :url, presence: true, http_url: true, uniqueness: { scope: :newsletter_id }
-  validates :title, presence: true
-  validates :published_at, presence: true
 
   belongs_to :newsletter
   has_many :links, dependent: :destroy
+
+  def title
+    super || [ newsletter&.name, number ].compact.join(" — ")
+  end
 
   def scraped_links(scraper_config: newsletter.scraper_config, http: HTTPService.default)
     Scraper
