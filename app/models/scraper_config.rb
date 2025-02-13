@@ -13,7 +13,7 @@ class ScraperConfig
   validates :cleanup_regexes, enumerable: { each: { regexp: true } }
 
   def ==(other)
-    other.is_a?(ScraperConfig) && self.attributes == other.attributes
+    other.class == self.class && other.attributes == self.attributes
   end
 
   def hash

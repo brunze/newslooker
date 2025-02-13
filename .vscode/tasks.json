@@ -22,6 +22,24 @@
       "problemMatcher": []
     },
     {
+      "command": "bundle exec rails db:rollback",
+      "label": "Rollback last migrations",
+      "type": "shell",
+      "icon": {
+        "id": "database"
+      },
+      "problemMatcher": []
+    },
+    {
+      "command": "bundle exec rails db:migrate:redo",
+      "label": "Redo last migrations",
+      "type": "shell",
+      "icon": {
+        "id": "database"
+      },
+      "problemMatcher": []
+    },
+    {
       "command": "bundle exec rails db:reset",
       "label": "Wipe databases",
       "type": "shell",
