@@ -1,13 +1,26 @@
-class Crawler < ApplicationRecord
-  validates :type, inclusion: { in: %w[UrlTemplateCrawler ArchivePageCrawler] }
-
-  validates :last_crawled_issue_number, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
-  validates :oldest_issue_to_crawl, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
-
-  def new(attributes)
+class Crawler
+  def self.make(attributes)
     case attributes.with_indifferent_access.fetch(:kind).to_s
-    in "url_template_crawler" then URLTemplateCrawler.new(attributes)
-    in "archive_page_crawler" then ArchivePageCrawler.new(attributes)
+    in "URLTemplateCrawler" then URLTemplateCrawler.new(attributes)
+    in "ArchivePageCrawler" then ArchivePageCrawler.new(attributes)
     end
+  end
+end
+
+class Crawler::ActiveRecordType < ActiveRecord::Type::Json
+  def cast(value)
+    case value
+    when NilClass then nil
+    when Crawler then value
+    else Crawler.make(value)
+    end
+  end
+
+  def deserialize(value)
+    cast(super(value))
+  end
+
+  def serialize(value)
+    super(value.attributes)
   end
 end

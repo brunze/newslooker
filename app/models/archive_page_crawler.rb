@@ -1,5 +1,11 @@
 class ArchivePageCrawler < Crawler
-  belongs_to :newsletter
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+
+  attribute :kind, :string, default: "ArchivePageCrawler"
+  attribute :archive_page_url, :string
+  attribute :issue_link_selector, :string
+  attribute :issue_number_regex, :string
 
   validates :archive_page_url, presence: true, http_url: true
   validates :issue_link_selector, presence: true

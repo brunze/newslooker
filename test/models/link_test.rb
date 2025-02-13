@@ -3,7 +3,7 @@ require "test_helper"
 class LinkTest < ActiveSupport::TestCase
   describe "factories" do
     test "default factory makes valid links" do
-      assert build(:link).valid?
+      assert create(:link).valid?
     end
   end
 

@@ -1,5 +1,9 @@
 class URLTemplateCrawler < Crawler
-  belongs_to :newsletter
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+
+  attribute :kind, :string, default: "URLTemplateCrawler"
+  attribute :url_template, :string
 
   validates :url_template, presence: true
 

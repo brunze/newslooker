@@ -29,4 +29,12 @@ class ScraperConfig::ActiveRecordType < ActiveRecord::Type::Json
     else ScraperConfig.new(value)
     end
   end
+
+  def deserialize(value)
+    cast(super(value))
+  end
+
+  def serialize(value)
+    super(value.attributes)
+  end
 end

@@ -3,7 +3,7 @@ require "test_helper"
 class ArchivePageCrawlerTest < ActiveSupport::TestCase
   describe "factories" do
     test "default factory makes valid crawlers" do
-      assert create(:archive_page_crawler).valid?
+      assert build(:archive_page_crawler).valid?
     end
   end
 
@@ -18,10 +18,6 @@ class ArchivePageCrawlerTest < ActiveSupport::TestCase
 
     it "is invalid without a regular expression to extract the issue number from the issue links" do
       assert_not build(:archive_page_crawler, issue_number_regex: nil).valid?
-    end
-
-    it "is invalid without a newsletter" do
-      assert_not build(:archive_page_crawler, newsletter: nil, archive_page_url: "https://example.com/issues").valid?
     end
   end
 end

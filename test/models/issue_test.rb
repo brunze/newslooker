@@ -3,7 +3,7 @@ require "test_helper"
 class IssueTest < ActiveSupport::TestCase
   describe "factories" do
     test "default factory makes valid issues" do
-      assert build(:issue).valid?
+      assert create(:issue).valid?
     end
   end
 
