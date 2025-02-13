@@ -9,5 +9,14 @@ class HTTPService
     raise Error
   end
 
+  def html_page_exists?(url)
+    case Excon.head(url).status
+    when 200, 204 then true
+    when 400..499 then false
+    end
+  rescue Excon::Error
+    raise Error
+  end
+
   class Error < RuntimeError; end
 end

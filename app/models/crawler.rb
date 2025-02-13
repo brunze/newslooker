@@ -5,6 +5,12 @@ class Crawler
     in "ArchivePageCrawler" then ArchivePageCrawler.new(attributes)
     end
   end
+
+  private
+
+  def default_crawl_limits
+    { issue_numbers: { from: 1, to: Float::INFINITY } }
+  end
 end
 
 class Crawler::ActiveRecordType < ActiveRecord::Type::Json

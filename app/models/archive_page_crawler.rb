@@ -19,18 +19,34 @@ class ArchivePageCrawler < Crawler
     attributes.hash
   end
 
-  def crawl(http: HTTPService.default)
+  def crawl(limits: default_crawl_limits, http: HTTPService.default)
     fetch_archive_page(http)
       .css(issue_link_selector)
-      .map { build_issue(it) }
+      .map { gather_issue_data(it) }
+      .select(&issue_number_within_limits(limits))
   end
 
   private
 
-  def build_issue(anchor)
-    number = anchor.attr("href").match(issue_number_regex).captures.first.to_i
-    url = anchor.attr("href")
+  def fetch_archive_page(http)
+    http.get_html(archive_page_url).then { Nokogiri::HTML(it) }
+  end
 
-    Issue.new(number:, url:)
+  def gather_issue_data(anchor)
+    url = anchor.attr("href") or raise ExtractionError.new("no `href` found in anchor")
+    number = extract_issue_number(url) or raise ExtractionError.new("no issue number found in URL")
+
+    { url:, number: }
+  end
+
+  def extract_issue_number(url)
+    url.match(issue_number_regex)&.captures&.first&.to_i
+  end
+
+  def issue_number_within_limits(limits)
+    limits => { issue_numbers: { from: Numeric => from, to: Numeric => to } }
+    issue_range = Range.new(from, to)
+
+    ->(issue_data) { issue_data.fetch(:number).in?(issue_range) }
   end
 end
