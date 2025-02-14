@@ -2,7 +2,7 @@
 
 ruby_weekly:
   name: "Ruby Weekly"
-  scraper_config:
+  scraper:
     link_block_selector: "td:has(.mainlink):not(:has(.tag-sponsor))"
     link_selector: "a"
     link_blurb_selector: "p"

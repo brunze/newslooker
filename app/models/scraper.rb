@@ -1,9 +1,23 @@
 class Scraper
-  def initialize(scraper_config)
-    @link_block_selector = scraper_config.link_block_selector.to_str
-    @link_selector = scraper_config.link_selector.to_str
-    @link_blurb_selector = scraper_config.link_blurb_selector.to_str
-    @cleanup_regexes = scraper_config.cleanup_regexes.map { Regexp.new(it) }
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+
+  attribute :link_block_selector, :string
+  attribute :link_selector, :string
+  attribute :link_blurb_selector, :string
+  attribute :cleanup_regexes, array: true, default: []
+
+  validates :link_block_selector, presence: true
+  validates :link_selector, presence: true
+  validates :link_blurb_selector, presence: true
+  validates :cleanup_regexes, enumerable: { each: { regexp: true } }
+
+  def ==(other)
+    other.class == self.class && other.attributes == self.attributes
+  end
+
+  def hash
+    attributes.hash
   end
 
   def call(html)
@@ -15,13 +29,13 @@ class Scraper
   private
 
   def link_blocks(html)
-    html.css(@link_block_selector)
+    html.css(link_block_selector)
   end
 
   def extract_link_data(link_block)
-    url = link_block.css(@link_selector).first.attr("href")
-    text = link_block.css(@link_selector).first.text
-    blurb = link_block.css(@link_blurb_selector).first.text
+    url = link_block.css(link_selector).first.attr("href")
+    text = link_block.css(link_selector).first.text
+    blurb = link_block.css(link_blurb_selector).first.text
 
     clean_up_blurb!(blurb, text)
 
@@ -43,10 +57,28 @@ class Scraper
   end
 
   def scrub_with_cleanup_regexes(blurb)
-    @cleanup_regexes.each { blurb.sub!(it, "") }
+    cleanup_regexes.each { blurb.sub!(it, "") }
   end
 
   def to_nokogiri_doc(html)
     html.is_a?(Nokogiri::HTML::Document) ? html : Nokogiri::HTML(html)
+  end
+end
+
+class Scraper::ActiveRecordType < ActiveRecord::Type::Json
+  def cast(value)
+    case value
+    when NilClass then nil
+    when Scraper then value
+    else Scraper.new(value)
+    end
+  end
+
+  def deserialize(value)
+    cast(super(value))
+  end
+
+  def serialize(value)
+    super(value.attributes)
   end
 end

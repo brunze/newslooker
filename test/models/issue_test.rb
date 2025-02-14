@@ -88,12 +88,12 @@ class IssueTest < ActiveSupport::TestCase
       http_service_mock = Minitest::Mock.new
       http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-      scraper_config = ScraperConfig.new(
+      scraper = Scraper.new(
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
       )
-      issue_links = issue.updated_links(scraper_config:, http: http_service_mock)
+      issue_links = issue.updated_links(scraper:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
@@ -105,7 +105,7 @@ class IssueTest < ActiveSupport::TestCase
     end
 
     it "uses the issue's newsletter scraper config by default" do
-      newsletter = build(:newsletter, scraper_config: ScraperConfig.new(
+      newsletter = build(:newsletter, scraper: Scraper.new(
         link_block_selector: ".link-container",
         link_selector: "a.main",
         link_blurb_selector: "p"
@@ -178,12 +178,12 @@ class IssueTest < ActiveSupport::TestCase
         http_service_mock = Minitest::Mock.new
         http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-        scraper_config = ScraperConfig.new(
+        scraper = Scraper.new(
           link_block_selector: ".link-block",
           link_selector: "a",
           link_blurb_selector: ".blurb"
         )
-        issue.updated_links(scraper_config:, http: http_service_mock)
+        issue.updated_links(scraper:, http: http_service_mock)
 
         modified_mock_html = <<~HTML
           <!DOCTYPE html>
@@ -209,7 +209,7 @@ class IssueTest < ActiveSupport::TestCase
         HTML
         http_service_mock.expect(:get_html, modified_mock_html, [ issue.url ])
 
-        updated_links = issue.updated_links(scraper_config:, http: http_service_mock)
+        updated_links = issue.updated_links(scraper:, http: http_service_mock)
 
         assert_same_attributes [
           Link.new(issue:, url: "https://example.com/link-1", text: "Link 1, different text", blurb: "Example blurb 1."),
@@ -249,12 +249,12 @@ class IssueTest < ActiveSupport::TestCase
       http_service_mock = Minitest::Mock.new
       http_service_mock.expect(:get_html, mock_html, [ issue.url ])
 
-      scraper_config = ScraperConfig.new(
+      scraper = Scraper.new(
         link_block_selector: ".link-block",
         link_selector: "a",
         link_blurb_selector: ".blurb"
       )
-      issue.extract_links!(scraper_config:, http: http_service_mock)
+      issue.extract_links!(scraper:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
@@ -280,7 +280,7 @@ class IssueTest < ActiveSupport::TestCase
       HTML
       http_service_mock.expect(:get_html, modified_html, [ issue.url ])
 
-      issue.extract_links!(scraper_config:, http: http_service_mock)
+      issue.extract_links!(scraper:, http: http_service_mock)
 
       assert_same_attributes [
         Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),

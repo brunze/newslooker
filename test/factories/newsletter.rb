@@ -6,7 +6,7 @@ FactoryBot.define do
 
       "#{subject} #{periodicity}"
     end
-    scraper_config
+    scraper
     association :crawler, factory: %i[url_template_crawler archive_page_crawler].sample
   end
 end

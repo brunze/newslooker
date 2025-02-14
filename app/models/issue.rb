@@ -34,9 +34,8 @@ class Issue < ApplicationRecord
     .values
   end
 
-  def scraped_links(scraper_config: newsletter.scraper_config, http: HTTPService.default)
-    Scraper
-      .new(scraper_config)
+  def scraped_links(scraper: newsletter.scraper, http: HTTPService.default)
+    scraper
       .call(http.get_html(url))
       .map { |link_data| Link.new(link_data) }
   end

@@ -28,7 +28,7 @@ class ScrapeIssueJobTest < ActiveJob::TestCase
     http_service = Minitest::Mock.new
     http_service.expect(:get_html, initial_html, [ issue.url ])
 
-    scraper_config = ScraperConfig.new(
+    scraper = Scraper.new(
       link_block_selector: ".link-block",
       link_selector: "a",
       link_blurb_selector: ".blurb"
@@ -38,7 +38,7 @@ class ScrapeIssueJobTest < ActiveJob::TestCase
     # 👆 no job should be enqueued for this link because it already has an embedding
 
     assert_enqueued_jobs(2, only: FetchEmbeddingForLinkJob) do
-      ScrapeIssueJob.new.perform(issue_id: issue.id, scraper_config:, http: http_service)
+      ScrapeIssueJob.new.perform(issue_id: issue.id, scraper:, http: http_service)
     end
 
     http_service.verify

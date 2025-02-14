@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :scraper_config do
+  factory :scraper do
     skip_create
 
     link_block_selector { ".link-block" }

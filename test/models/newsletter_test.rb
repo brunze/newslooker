@@ -13,7 +13,7 @@ class NewsletterTest < ActiveSupport::TestCase
     end
 
     it "is invalid without a scraper configuration" do
-      assert build(:newsletter, scraper_config: nil).invalid?
+      assert build(:newsletter, scraper: nil).invalid?
     end
 
     it "is invalid without a crawler" do
