@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ExtractLinksFromIssueJobTest < ActiveJob::TestCase
+class ScrapeIssueJobTest < ActiveJob::TestCase
   it "enqueues jobs to fetch embeddings for new links" do
     issue = create(:issue)
     initial_html = <<~HTML
@@ -38,7 +38,7 @@ class ExtractLinksFromIssueJobTest < ActiveJob::TestCase
     # 👆 no job should be enqueued for this link because it already has an embedding
 
     assert_enqueued_jobs(2, only: FetchEmbeddingForLinkJob) do
-      ExtractLinksFromIssueJob.new.perform(issue, scraper_config:, http: http_service)
+      ScrapeIssueJob.new.perform(issue_id: issue.id, scraper_config:, http: http_service)
     end
 
     http_service.verify

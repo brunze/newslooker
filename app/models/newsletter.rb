@@ -9,6 +9,12 @@ class Newsletter < ApplicationRecord
   validates :crawler, presence: true, nested: true
   validates :oldest_issue_to_crawl, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
+  def crawl!(now: Time.current, **kwargs)
+    crawl(**kwargs).each(&:save!)
+    update!(last_crawled_at: now)
+    nil
+  end
+
   def crawl(limits: default_limits_for_next_crawl, crawler: self.crawler, http: HTTPService.default)
     crawler
       .crawl(limits:, http:)
@@ -21,12 +27,6 @@ class Newsletter < ApplicationRecord
       .map do |issue_data|
         issues.build(issue_data)
       end
-  end
-
-  def crawl!(now: Time.current, **kwargs)
-    crawl(**kwargs).each(&:save!)
-    update!(last_crawled_at: now)
-    nil
   end
 
   def default_limits_for_next_crawl

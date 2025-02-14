@@ -49,6 +49,15 @@
       "problemMatcher": []
     },
     {
+      "command": "bundle exec rails generate migration ${input:migration_details}",
+      "label": "Generate new migration",
+      "type": "shell",
+      "icon": {
+        "id": "edit"
+      },
+      "problemMatcher": []
+    },
+    {
       "command": "RAILS_ENV=development bundle exec rails db:fixtures:load",
       "label": "Load fixtures",
       "type": "shell",
@@ -99,6 +108,13 @@
         "id": "checklist",
       },
       "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "migration_details",
+      "type": "promptString",
+      "description": "rails g migration ..."
     }
   ]
 }

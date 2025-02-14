@@ -1,10 +1,10 @@
 class Link < ApplicationRecord
-  validates :url, presence: true, http_url: true, uniqueness: { scope: :issue_id }
-  validates :text, presence: true
-
   belongs_to :issue
 
   has_neighbors :embedding
+
+  validates :url, presence: true, http_url: true, uniqueness: { scope: :issue_id }
+  validates :text, presence: true
 
   scope :without_embedding, -> { where(embedding: nil) }
 
@@ -13,14 +13,14 @@ class Link < ApplicationRecord
     self.nearest_neighbors(:embedding, needle_embedding, distance: "euclidean").first(limit)
   end
 
-  def fetch_embedding(force: false, embeddings: EmbeddingsService.default)
-    self.embedding = embeddings.fetch(source_for_embeddings) if embedding.nil? || force
-    nil
-  end
-
   def fetch_embedding!(...)
     fetch_embedding(...)
     update!(embedding:)
+    nil
+  end
+
+  def fetch_embedding(force: false, embeddings: EmbeddingsService.default)
+    self.embedding = embeddings.fetch(source_for_embeddings) if embedding.nil? || force
     nil
   end
 

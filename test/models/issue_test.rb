@@ -31,6 +31,34 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  describe "scraping" do
+    it "extracts a publication date" do
+      skip "# TODO"
+    end
+
+    it "extracts links" do
+      issue = create(:issue)
+      links_extracted = false
+
+      issue.stub(:extract_links!, proc { links_extracted = true }) do
+        issue.scrape!
+      end
+
+      assert links_extracted # link extraction tested more thoroughly below
+    end
+
+    it "updates the last_scraped_at timestamp" do
+      issue = create(:issue)
+      now = Time.current.beginning_of_minute
+
+      issue.stub(:extract_links!, nil) do
+        issue.scrape!(now:)
+      end
+
+      assert issue.last_scraped_at, now
+    end
+  end
+
   describe "link extraction" do
     it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
       issue = build(:issue)
