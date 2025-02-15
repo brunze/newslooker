@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_174413) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_155737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -18,7 +18,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_174413) do
   create_table "issues", force: :cascade do |t|
     t.bigint "newsletter_id", null: false
     t.string "url", null: false
-    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "number", null: false
