@@ -28,11 +28,18 @@ module ActiveSupport
       end
     end
 
-    # Check if two collections contain the same objects, comparing by attributes and ignoring order.
+    # Check if two collections contain the same objects, comparing by attributes.
     def assert_same_attributes(expected, actual, only: [])
-      get_attributes = ->(record) { only.empty? ? record.attributes : record.slice(*only) } >> :symbolize_keys.to_proc
+      assert_equal expected.map { to_attributes(it, *only) },
+                     actual.map { to_attributes(it, *only) }
+    end
 
-      assert_equal expected.to_set(&get_attributes), actual.to_set(&get_attributes)
+    # Get attributes from a record or collection of records.
+    def to_attributes(record, *attribute_names)
+      get_attributes = attribute_names.empty? ? :attributes.to_proc : -> { it.slice(*attribute_names) }
+      get_attributes >>= :symbolize_keys.to_proc
+
+      record.respond_to?(:each) ? record.map(&get_attributes) : get_attributes.(record)
     end
   end
 end

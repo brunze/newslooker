@@ -35,7 +35,7 @@ class IssueTest < ActiveSupport::TestCase
     describe "link extraction" do
       it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
         issue = create(:issue)
-        scraped_links = Set[
+        scraped_links = [
           { url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1." },
           { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2." },
           { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." }
@@ -45,7 +45,7 @@ class IssueTest < ActiveSupport::TestCase
 
         issue.scrape!(scraper:, http:)
 
-        assert_equal scraped_links, issue.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+        assert_equal scraped_links, to_attributes(issue.reload.links, %i[url text blurb])
         http.verify
       end
 
@@ -55,16 +55,16 @@ class IssueTest < ActiveSupport::TestCase
           issue.links.create!(url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1.")
           issue.links.create!(url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2.")
 
-          scraped_links = Set[
+          scraped_links = [
             { url: "https://example.com/link-1", text: "Link 1, different text", blurb: "Example blurb 1." },
-            { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2, different blurb." },
+            { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2, different blurb." }
           ]
           scraper = scraper_stub(links: scraped_links)
           http = http_mock(issue.url)
 
           issue.scrape!(scraper:, http:)
 
-          assert_equal scraped_links, issue.reload.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+          assert_equal scraped_links, to_attributes(issue.reload.links, %i[url text blurb])
           http.verify
         end
       end
@@ -74,19 +74,19 @@ class IssueTest < ActiveSupport::TestCase
         issue.links.create!(url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1.")
         issue.links.create!(url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2.")
 
-        scraped_links = Set[
-          { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." },
+        scraped_links = [
+          { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." }
         ]
         scraper = scraper_stub(links: scraped_links)
         http = http_mock(issue.url)
 
         issue.scrape!(scraper:, http:)
 
-        assert_equal Set[
+        assert_equal [
           { url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1." },
           { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2." },
           { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." }
-        ], issue.reload.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+        ], to_attributes(issue.reload.links, %i[url text blurb])
         http.verify
       end
 
