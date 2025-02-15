@@ -6,11 +6,17 @@ class Scraper
   attribute :link_selector, :string
   attribute :link_blurb_selector, :string
   attribute :cleanup_regexes, array: true, default: []
+  attribute :publish_date_selector, :string
+  attribute :publish_date_attribute, :string
+  attribute :publish_date_regex, :string
 
   validates :link_block_selector, presence: true
   validates :link_selector, presence: true
   validates :link_blurb_selector, presence: true
   validates :cleanup_regexes, enumerable: { each: { regexp: true } }
+  validates :publish_date_selector, presence: true
+  validates :publish_date_attribute, format: { with: /\A\w+\z/ }, allow_nil: true
+  validates :publish_date_regex, regexp: true, allow_nil: true
 
   def ==(other)
     other.class == self.class && other.attributes == self.attributes
@@ -21,12 +27,19 @@ class Scraper
   end
 
   def call(html)
-    link_blocks(to_nokogiri_doc(html)).map do |link_block|
-      extract_link_data(link_block)
-    end
+    html = to_nokogiri_doc(html)
+
+    Results.new(
+      links: extract_links(html),
+      publication_date: extract_publication_date(html)
+    )
   end
 
   private
+
+  def extract_links(html)
+    link_blocks(html).map { extract_link_data(it) }
+  end
 
   def link_blocks(html)
     html.css(link_block_selector)
@@ -60,9 +73,25 @@ class Scraper
     cleanup_regexes.each { blurb.sub!(it, "") }
   end
 
+  def extract_publication_date(html)
+    node = html.css(publish_date_selector).first or return
+
+    date_string = if publish_date_regex
+      node.text.match(publish_date_regex).captures.first
+    elsif publish_date_attribute
+      node.attr(publish_date_attribute)
+    else
+      raise "Either publish_date_attribute or publish_date_regex must be set" # FIXME error handling
+    end
+
+    DateTime.parse(date_string)
+  end
+
   def to_nokogiri_doc(html)
     html.is_a?(Nokogiri::HTML::Document) ? html : Nokogiri::HTML(html)
   end
+
+  Results = Data.define(:links, :publication_date)
 end
 
 class Scraper::ActiveRecordType < ActiveRecord::Type::Json

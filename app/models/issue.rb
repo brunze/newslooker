@@ -11,20 +11,23 @@ class Issue < ApplicationRecord
     super || [ newsletter&.name, number ].compact.join(" — ")
   end
 
-  def scrape!(now: Time.current, **kwargs)
-    extract_links!(**kwargs)
-    extract_publication_date!(**kwargs)
+  def scrape!(scraper: newsletter.scraper, now: Time.current, http: HTTPService.default)
+    results = scraper.call(http.get_html(self.url))
+
+    extract_links!(results)
+    extract_publication_date!(results)
     update!(last_scraped_at: now)
     nil
   end
 
-  def extract_links!(...)
-    links.replace(updated_links(scraped_links(...)))
+  def extract_links!(scraper_results)
+    scraped_links = scraper_results.links.map { Link.new(it) }
+
+    links.replace(updated_links(scraped_links))
     nil
   end
 
-  def updated_links(new_links = nil, **kwargs)
-    new_links ||= scraped_links(**kwargs)
+  def updated_links(new_links)
     new_links = new_links.index_by(&:url)
     old_links = self.links.index_by(&:url)
 
@@ -34,13 +37,7 @@ class Issue < ApplicationRecord
     .values
   end
 
-  def scraped_links(scraper: newsletter.scraper, http: HTTPService.default)
-    scraper
-      .call(http.get_html(url))
-      .map { |link_data| Link.new(link_data) }
-  end
-
-  def extract_publication_date!(...)
-    # TODO Issue#extract_publication_date!
+  def extract_publication_date!(scraper_results)
+    update!(published_at: scraper_results.publication_date) if published_at.blank?
   end
 end

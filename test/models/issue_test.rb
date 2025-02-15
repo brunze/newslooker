@@ -32,263 +32,127 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   describe "scraping" do
-    it "extracts a publication date" do
-      skip "# TODO"
-    end
+    describe "link extraction" do
+      it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
+        issue = create(:issue)
+        scraped_links = Set[
+          { url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1." },
+          { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2." },
+          { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." }
+        ]
+        scraper = scraper_stub(links: scraped_links)
+        http = http_mock(issue.url)
 
-    it "extracts links" do
-      issue = create(:issue)
-      links_extracted = false
+        issue.scrape!(scraper:, http:)
 
-      issue.stub(:extract_links!, proc { links_extracted = true }) do
-        issue.scrape!
+        assert_equal scraped_links, issue.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+        http.verify
       end
 
-      assert links_extracted # link extraction tested more thoroughly below
+      describe "when it encounters a link that had already been previously extracted" do
+        it "replaces the existing link if it has a different text or blurb" do
+          issue = create(:issue)
+          issue.links.create!(url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1.")
+          issue.links.create!(url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2.")
+
+          scraped_links = Set[
+            { url: "https://example.com/link-1", text: "Link 1, different text", blurb: "Example blurb 1." },
+            { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2, different blurb." },
+          ]
+          scraper = scraper_stub(links: scraped_links)
+          http = http_mock(issue.url)
+
+          issue.scrape!(scraper:, http:)
+
+          assert_equal scraped_links, issue.reload.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+          http.verify
+        end
+      end
+
+      it "preserves old links even if they disappear from the issue's page" do
+        issue = create(:issue)
+        issue.links.create!(url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1.")
+        issue.links.create!(url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2.")
+
+        scraped_links = Set[
+          { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." },
+        ]
+        scraper = scraper_stub(links: scraped_links)
+        http = http_mock(issue.url)
+
+        issue.scrape!(scraper:, http:)
+
+        assert_equal Set[
+          { url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1." },
+          { url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2." },
+          { url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3." }
+        ], issue.reload.links.to_set { it.slice(*%i[url text blurb]).symbolize_keys }
+        http.verify
+      end
+
+      it "uses the newsletter's scraper by default" do
+        scraper = build(:scraper)
+        newsletter = build(:newsletter, scraper:)
+        issue = build(:issue, newsletter:)
+        http = http_mock(issue.url)
+
+        used_newsletter_scraper = false
+
+        scraper.stub(:call, proc do
+          used_newsletter_scraper = true
+          scraper_stub.call # still need to return valid scraper results
+        end) do
+          issue.scrape!(http:)
+        end
+
+        assert used_newsletter_scraper
+        http.verify
+      end
     end
 
-    it "updates the last_scraped_at timestamp" do
+    it "updates the issue publication date if it isn't already known" do
+      issue = create(:issue)
+      publication_date = 42.days.ago.beginning_of_minute
+      scraper = scraper_stub(publication_date:)
+      http = http_mock(issue.url)
+
+      assert_nil issue.published_at
+
+      issue.scrape!(scraper:, http:)
+      assert_equal publication_date, issue.published_at
+
+      other_date = 3.days.ago.beginning_of_minute
+      scraper = scraper_stub(publication_date: other_date)
+      http.expect(:get_html, nil, [ issue.url ])
+
+      issue.scrape!(scraper:, http:)
+      assert_equal publication_date, issue.published_at
+
+      http.verify
+    end
+
+    it "remembers when the last scrape happened" do
       issue = create(:issue)
       now = Time.current.beginning_of_minute
+      scraper = scraper_stub
+      http = http_mock(issue.url)
 
-      issue.stub(:extract_links!, nil) do
-        issue.scrape!(now:)
-      end
+      issue.scrape!(scraper:, now:, http:)
 
-      assert issue.last_scraped_at, now
+      assert now, issue.last_scraped_at
+      http.verify
     end
   end
 
-  describe "link extraction" do
-    it "it fetches the HTML for the issue and builds the relevant Links it finds in it" do
-      issue = build(:issue)
+  private
 
-      mock_html = <<~HTML
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-          </head>
-          <body>
-            <div class="link-block">
-              <a href="https://example.com/link-1">Link 1</a>
-              <p class="blurb">Example blurb 1.</p>
-            </div>
-            <div class="link-block">
-              <a href="https://example.com/link-2">Link 2</a>
-              <p class="blurb">Example blurb 2.</p>
-            </div>
-            <div class="link-block">
-              <a href="https://example.com/link-3">Link 3</a>
-              <p class="blurb">Example blurb 3.</p>
-            </div>
-          </body>
-        </html>
-      HTML
-      http_service_mock = Minitest::Mock.new
-      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
+  def http_mock(url, response = nil)
+    mock = Minitest::Mock.new
+    mock.expect(:get_html, response, [ url ])
+    mock
+  end
 
-      scraper = Scraper.new(
-        link_block_selector: ".link-block",
-        link_selector: "a",
-        link_blurb_selector: ".blurb"
-      )
-      issue_links = issue.updated_links(scraper:, http: http_service_mock)
-
-      assert_same_attributes [
-        Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
-        Link.new(issue:, url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2."),
-        Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
-      ], issue_links.to_a, only: [ :url, :text, :blurb ]
-
-      http_service_mock.verify
-    end
-
-    it "uses the issue's newsletter scraper config by default" do
-      newsletter = build(:newsletter, scraper: Scraper.new(
-        link_block_selector: ".link-container",
-        link_selector: "a.main",
-        link_blurb_selector: "p"
-      ))
-      issue = build(:issue, newsletter:)
-
-      mock_html = <<~HTML
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-          </head>
-          <body>
-            <div class="link-container">
-              <a href="https://example.com/ignored-link-1">Ignored Link 1</a>
-              <a class="main" href="https://example.com/link-1">Main Link 1</a>
-              <p>Example blurb 1.</p>
-            </div>
-            <div class="link-block">
-              <a href="https://example.com/link-2">Link 2</a>
-              <p class="blurb">Example blurb 2.</p>
-            </div>
-            <div class="link-container">
-              <a href="https://example.com/ignored-link-3">Ignored Link 3</a>
-              <a class="main" href="https://example.com/link-3">Main Link 3</a>
-              <p>Example blurb 3.</p>
-            </div>
-          </body>
-        </html>
-      HTML
-      http_service_mock = Minitest::Mock.new
-      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
-
-      issue_links = issue.updated_links(http: http_service_mock)
-
-      assert_same_attributes [
-        Link.new(issue:, url: "https://example.com/link-1", text: "Main Link 1", blurb: "Example blurb 1."),
-        Link.new(issue:, url: "https://example.com/link-3", text: "Main Link 3", blurb: "Example blurb 3.")
-      ], issue_links.to_a, only: [ :url, :text, :blurb ]
-
-      http_service_mock.verify
-    end
-
-    describe "when it encounters a link that had already been previously extracted" do
-      it "replaces the existing link if it has a different text or blurb" do
-        issue = build(:issue)
-
-        mock_html = <<~HTML
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-            </head>
-            <body>
-              <div class="link-block">
-                <a href="https://example.com/link-1">Link 1</a>
-                <p class="blurb">Example blurb 1.</p>
-              </div>
-              <div class="link-block">
-                <a href="https://example.com/link-2">Link 2</a>
-                <p class="blurb">Example blurb 2.</p>
-              </div>
-              <div class="link-block">
-                <a href="https://example.com/link-3">Link 3</a>
-                <p class="blurb">Example blurb 3.</p>
-              </div>
-            </body>
-          </html>
-        HTML
-        http_service_mock = Minitest::Mock.new
-        http_service_mock.expect(:get_html, mock_html, [ issue.url ])
-
-        scraper = Scraper.new(
-          link_block_selector: ".link-block",
-          link_selector: "a",
-          link_blurb_selector: ".blurb"
-        )
-        issue.updated_links(scraper:, http: http_service_mock)
-
-        modified_mock_html = <<~HTML
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-            </head>
-            <body>
-              <div class="link-block">
-                <a href="https://example.com/link-1">Link 1, different text</a>
-                <p class="blurb">Example blurb 1.</p>
-              </div>
-              <div class="link-block">
-                <a href="https://example.com/link-2">Link 2</a>
-                <p class="blurb">Example blurb 2, different blurb.</p>
-              </div>
-              <div class="link-block">
-                <a href="https://example.com/link-3">Link 3</a>
-                <p class="blurb">Example blurb 3.</p>
-              </div>
-            </body>
-          </html>
-        HTML
-        http_service_mock.expect(:get_html, modified_mock_html, [ issue.url ])
-
-        updated_links = issue.updated_links(scraper:, http: http_service_mock)
-
-        assert_same_attributes [
-          Link.new(issue:, url: "https://example.com/link-1", text: "Link 1, different text", blurb: "Example blurb 1."),
-          Link.new(issue:, url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2, different blurb."),
-          Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
-        ], updated_links, only: [ :url, :text, :blurb ]
-
-        http_service_mock.verify
-      end
-    end
-
-    it "preserves old links even if they disappear from the issue's HTML page" do
-      issue = build(:issue)
-
-      mock_html = <<~HTML
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-          </head>
-          <body>
-            <div class="link-block">
-              <a href="https://example.com/link-1">Link 1</a>
-              <p class="blurb">Example blurb 1.</p>
-            </div>
-            <div class="link-block">
-              <a href="https://example.com/link-2">Link 2</a>
-              <p class="blurb">Example blurb 2.</p>
-            </div>
-            <div class="link-block">
-              <a href="https://example.com/link-3">Link 3</a>
-              <p class="blurb">Example blurb 3.</p>
-            </div>
-          </body>
-        </html>
-      HTML
-      http_service_mock = Minitest::Mock.new
-      http_service_mock.expect(:get_html, mock_html, [ issue.url ])
-
-      scraper = Scraper.new(
-        link_block_selector: ".link-block",
-        link_selector: "a",
-        link_blurb_selector: ".blurb"
-      )
-      issue.extract_links!(scraper:, http: http_service_mock)
-
-      assert_same_attributes [
-        Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
-        Link.new(issue:, url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2."),
-        Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
-      ], issue.links.to_a, only: [ :url, :text, :blurb ]
-
-      http_service_mock.verify
-
-      modified_html = <<~HTML
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8">
-          </head>
-          <body>
-            <div class="link-block">
-              <a href="https://example.com/link-2">Link 2</a>
-              <p class="blurb">Example blurb 2.</p>
-            </div>
-          </body>
-        </html>
-      HTML
-      http_service_mock.expect(:get_html, modified_html, [ issue.url ])
-
-      issue.extract_links!(scraper:, http: http_service_mock)
-
-      assert_same_attributes [
-        Link.new(issue:, url: "https://example.com/link-1", text: "Link 1", blurb: "Example blurb 1."),
-        Link.new(issue:, url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2."),
-        Link.new(issue:, url: "https://example.com/link-3", text: "Link 3", blurb: "Example blurb 3.")
-      ], issue.links.to_a, only: [ :url, :text, :blurb ]
-
-      http_service_mock.verify
-    end
+  def scraper_stub(links: [], publication_date: 1.day.ago)
+    proc { Scraper::Results.new(links:, publication_date:) }
   end
 end
