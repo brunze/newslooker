@@ -2,21 +2,20 @@ class ArchivePageCrawler < Crawler
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :kind, :string, default: "ArchivePageCrawler"
+  attribute :kind, :string, default: name
   attribute :archive_page_url, :string
   attribute :issue_link_selector, :string
   attribute :issue_number_regex, :string
 
+  validates :kind, inclusion: { in: [ name ] }
   validates :archive_page_url, presence: true, http_url: true
   validates :issue_link_selector, presence: true
   validates :issue_number_regex, presence: true, regexp: true
 
+  delegate :hash, :as_json, to: :attributes
+
   def ==(other)
     other.class == self.class && other.attributes == self.attributes
-  end
-
-  def hash
-    attributes.hash
   end
 
   def crawl(limits: default_crawl_limits, http: HTTPService.default)

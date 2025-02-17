@@ -25,8 +25,4 @@ class Crawler::ActiveRecordType < ActiveRecord::Type::Json
   def deserialize(value)
     cast(super(value))
   end
-
-  def serialize(value)
-    super(value.attributes)
-  end
 end

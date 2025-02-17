@@ -28,11 +28,11 @@ class ScrapeIssueJobTest < ActiveJob::TestCase
     http_service = Minitest::Mock.new
     http_service.expect(:get_html, initial_html, [ issue.url ])
 
-    scraper = Scraper.new(
+    scraper = build(:scraper, links_scraper: {
       link_block_selector: ".link-block",
-      link_selector: "a",
-      link_blurb_selector: ".blurb"
-    )
+      anchor_selector: "a",
+      blurb_selector: ".blurb"
+    })
 
     issue.links << create(:link, :with_embedding, url: "https://example.com/link-2", text: "Link 2", blurb: "Example blurb 2.")
     # 👆 no job should be enqueued for this link because it already has an embedding

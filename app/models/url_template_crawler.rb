@@ -2,17 +2,16 @@ class URLTemplateCrawler < Crawler
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :kind, :string, default: "URLTemplateCrawler"
+  attribute :kind, :string, default: name
   attribute :url_template, :string
 
+  validates :kind, inclusion: { in: [ name ] }
   validates :url_template, presence: true
+
+  delegate :hash, :as_json, to: :attributes
 
   def ==(other)
     other.class == self.class && other.attributes == self.attributes
-  end
-
-  def hash
-    attributes.hash
   end
 
   def crawl(limits: default_crawl_limits, pace: 1.second, http: HTTPService.default)
