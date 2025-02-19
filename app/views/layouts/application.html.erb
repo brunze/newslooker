@@ -19,10 +19,23 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
+
+    <script type="text/hyperscript">
+      def H.disableUnless(el, enabled)
+        if enabled
+          remove @disabled from el
+        else
+          set el@disabled to true
+        end
+      end
+    </script>
+
+    <meta name="htmx-config" content='{"responseHandling": [{"code":".*", "swap": true}]}' />
+
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body hx-boost="true">
     <%= yield %>
   </body>
 </html>

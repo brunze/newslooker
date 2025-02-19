@@ -1,0 +1,12 @@
+- disable_other_fieldsets = "\
+  on change(target) \
+    for fieldset in <[pdc-kind]/> \
+      H.disableUnless(fieldset, fieldset@pdc-kind == target.value)"
+
+= scraper_kind_selector(required: true, wrapper_attributes: { script: disable_other_fieldsets })
+
+fieldset.hide-if-disabled pdc-kind="NodeAttributePublicationDateScraper" disabled=(node_attribute_publication_date_scraper.nil?)
+  = render node_attribute_publication_date_scraper_fields
+
+fieldset.hide-if-disabled pdc-kind="NodeTextPublicationDateScraper" disabled=(node_text_publication_date_scraper.nil?)
+  = render node_text_publication_date_scraper_fields

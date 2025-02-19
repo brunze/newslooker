@@ -176,6 +176,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.4)
     minitest-spec-rails (7.4.1)
@@ -322,6 +323,9 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    slim (5.2.1)
+      temple (~> 0.10.0)
+      tilt (>= 2.1.0)
     solid_cable (3.0.7)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -346,10 +350,12 @@ GEM
       net-ssh (>= 2.8.0)
       ostruct
     stringio (3.1.2)
+    temple (0.10.3)
     thor (1.3.2)
     thruster (0.1.11)
     thruster (0.1.11-aarch64-linux)
     thruster (0.1.11-x86_64-linux)
+    tilt (2.6.0)
     timeout (0.4.3)
     typhoeus (1.4.1)
       ethon (>= 0.9.0)
@@ -360,6 +366,10 @@ GEM
     unicode-emoji (4.0.4)
     uri (1.0.2)
     useragent (0.16.11)
+    view_component (3.21.0)
+      activesupport (>= 5.2.0, < 8.1)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -406,11 +416,13 @@ DEPENDENCIES
   rails (~> 8.0.1)
   rubocop-rails-omakase
   selenium-webdriver
+  slim
   solid_cable
   solid_cache
   solid_queue
   thruster
   tzinfo-data
+  view_component
   web-console
 
 BUNDLED WITH

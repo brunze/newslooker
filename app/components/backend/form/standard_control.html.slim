@@ -1,0 +1,10 @@
+fieldset disabled=disabled *wrapper_attributes
+  - if label
+    label for=label_for = label
+
+  = content
+
+  - if errors.any?
+    ul.errors
+      - errors.each do |error|
+        li = error

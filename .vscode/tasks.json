@@ -13,7 +13,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails db:migrate",
+      "command": "bin/rails db:migrate",
       "label": "Migrate databases",
       "type": "shell",
       "icon": {
@@ -22,7 +22,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails db:rollback",
+      "command": "bin/rails db:rollback",
       "label": "Rollback last migrations",
       "type": "shell",
       "icon": {
@@ -31,7 +31,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails db:migrate:redo",
+      "command": "bin/rails db:migrate:redo",
       "label": "Redo last migrations",
       "type": "shell",
       "icon": {
@@ -40,7 +40,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails db:reset",
+      "command": "bin/rails db:reset",
       "label": "Wipe databases",
       "type": "shell",
       "icon": {
@@ -49,7 +49,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails generate migration ${input:migration_details}",
+      "command": "bin/rails generate migration ${input:migration_details}",
       "label": "Generate new migration",
       "type": "shell",
       "icon": {
@@ -58,7 +58,7 @@
       "problemMatcher": []
     },
     {
-      "command": "RAILS_ENV=development bundle exec rails db:fixtures:load",
+      "command": "RAILS_ENV=development bin/rails db:fixtures:load",
       "label": "Load fixtures",
       "type": "shell",
       "icon": {
@@ -67,7 +67,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails db:fixtures:load",
+      "command": "bin/rails db:fixtures:load",
       "label": "Load fixtures",
       "type": "shell",
       "icon": {
@@ -76,7 +76,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails test ${file}",
+      "command": "bin/rails test ${file}",
       "label": "Run all tests in current file",
       "type": "shell",
       "presentation": {
@@ -93,7 +93,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bundle exec rails test",
+      "command": "bin/rails test",
       "label": "Run all tests in project",
       "type": "shell",
       "presentation": {
@@ -108,13 +108,44 @@
         "id": "checklist",
       },
       "problemMatcher": []
-    }
+    },
+    {
+      "command": "bin/rails generate component ${input:component_details}",
+      "label": "Generate new component",
+      "type": "shell",
+      "icon": {
+        "id": "edit"
+      },
+      "problemMatcher": []
+    },
+    {
+      "command": "bin/dev",
+      "label": "Start dev server",
+      "type": "shell",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "icon": {
+        "id": "server-process",
+      },
+      "problemMatcher": []
+    },
   ],
   "inputs": [
     {
       "id": "migration_details",
       "type": "promptString",
       "description": "rails g migration ..."
+    },
+    {
+      "id": "component_details",
+      "type": "promptString",
+      "description": "rails g component ..."
     }
   ]
 }

@@ -1,0 +1,10 @@
+= text_control newsletter, :name, namespace:, required: true, autofocus: true
+= number_control newsletter, :oldest_issue_to_crawl, namespace:, min: 1, step: 1
+
+fieldset
+  legend = human_attribute_name(newsletter, :crawler)
+  = render crawler_fields
+
+fieldset
+  legend = human_attribute_name(newsletter, :scraper)
+  = render scraper_fields

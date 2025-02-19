@@ -42,6 +42,8 @@ gem "mistral-ai"
 gem "neighbor"
 gem "nokogiri"
 gem "pgvector"
+gem "slim"
+gem "view_component"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -62,10 +64,10 @@ group :development do
 end
 
 group :test do
-  gem "minitest-spec-rails"
-  gem "factory_bot_rails"
-
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  gem "minitest-spec-rails"
+  gem "factory_bot_rails"
 end

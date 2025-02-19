@@ -14,6 +14,10 @@ class Scraper
     other.class == self.class && other.attributes == self.attributes
   end
 
+  def inspect
+    "#<#{self.class} #{as_json}>"
+  end
+
   def call(html)
     html = Scraper.to_nokogiri_doc(html)
 

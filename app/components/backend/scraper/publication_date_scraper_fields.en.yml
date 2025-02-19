@@ -1,0 +1,3 @@
+en:
+  node_attribute_publication_date_scraper: Get publication date from an HTML tag's attribute value
+  node_text_publication_date_scraper: Get publication date from an HTML tag's content

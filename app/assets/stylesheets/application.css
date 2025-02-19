@@ -8,3 +8,32 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Reset */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+fieldset {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+/* /Reset */
+
+/* Forms */
+form fieldset {
+  .errors {
+    color: red;
+  }
+  &:has(> .errors) input {
+    border: 1px solid red;
+  }
+}
+/* /Forms */
+
+/* Utils */
+.hide-if-disabled[disabled] {
+  display: none;
+}
+/* /Utils */

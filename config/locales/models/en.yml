@@ -1,0 +1,30 @@
+en:
+  activerecord:
+    attributes:
+      newsletter:
+        name: Name
+        oldest_issue_to_crawl: Oldest issue number to index
+        crawler: Crawler
+        scraper: Scraper
+  activemodel:
+    attributes:
+      archive_page_crawler:
+        archive_page_url: URL of the archive page
+        issue_link_selector: Issue link selector
+        issue_number_regex: Regular expression for issue numbers
+      url_template_crawler:
+        url_template: URL template
+      scraper:
+        links_scraper: Links scraper
+        publication_date_scraper: Publication date scraper
+      links_scraper:
+        link_block_selector: Link block selector
+        anchor_selector: Anchor selector
+        blurb_selector: Blurb selector
+        cleanup_regexes: Cleanup regular expressions
+      node_attribute_publication_date_scraper:
+        node_selector: Node selector
+        node_attribute_name: Node attribute name
+      node_text_publication_date_scraper:
+        node_selector: Node selector
+        extractor_regex: Extractor regular expression
