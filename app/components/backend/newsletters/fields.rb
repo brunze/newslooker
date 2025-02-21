@@ -1,6 +1,6 @@
 module Backend
 module Newsletters
-class Fields < ViewComponent::Base
+class Fields < ApplicationComponent
   include ::Backend::Form::Controls
 
   def initialize(newsletter: nil, namespace: nil)

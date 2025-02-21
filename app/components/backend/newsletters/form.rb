@@ -1,6 +1,6 @@
 module Backend
 module Newsletters
-class Form < ViewComponent::Base
+class Form < ApplicationComponent
   def initialize(newsletter: nil)
     @newsletter = newsletter || ::Newsletter.new
   end

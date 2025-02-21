@@ -1,6 +1,6 @@
 module Backend
 module Crawlers
-class ArchivePageCrawlerFields < ViewComponent::Base
+class ArchivePageCrawlerFields < ApplicationComponent
   include ::Backend::Form::Controls
 
   def initialize(crawler: nil, namespace: nil)

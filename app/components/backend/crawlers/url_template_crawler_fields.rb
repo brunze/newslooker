@@ -1,6 +1,6 @@
 module Backend
 module Crawlers
-class URLTemplateCrawlerFields < ViewComponent::Base
+class URLTemplateCrawlerFields < ApplicationComponent
   include ::Backend::Form::Controls
 
   def initialize(crawler: nil, namespace: nil)

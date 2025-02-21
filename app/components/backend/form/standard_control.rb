@@ -1,6 +1,6 @@
 module Backend
 module Form
-class StandardControl < ViewComponent::Base
+class StandardControl < ApplicationComponent
   def initialize(
     attribute_name:, value:,
     namespace: nil, label: nil, label_for: nil, errors: [],

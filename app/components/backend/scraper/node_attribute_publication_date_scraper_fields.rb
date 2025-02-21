@@ -1,6 +1,6 @@
 module Backend
 module Scraper
-class NodeAttributePublicationDateScraperFields < ViewComponent::Base
+class NodeAttributePublicationDateScraperFields < ApplicationComponent
   include ::Backend::Form::Controls
 
   def initialize(scraper: nil, namespace: nil)

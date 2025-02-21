@@ -1,6 +1,6 @@
 module Backend
 module Scraper
-class LinksScraperFields < ViewComponent::Base
+class LinksScraperFields < ApplicationComponent
   include ::Backend::Form::Controls
 
   def initialize(scraper: nil, namespace: nil)
