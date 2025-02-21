@@ -16,7 +16,7 @@ class NewslettersController < ApplicationController
   def show
     newsletter = Newsletter.find(params[:id])
 
-    render inline: view_context.debug(newsletter.as_json)
+    render Backend::Newsletters::Pages::Show.new(newsletter:)
   end
 
   private
@@ -26,7 +26,7 @@ class NewslettersController < ApplicationController
   end
 
   def newsletter_params
-    params.expect(newsletter: [ :name, crawler: crawler_params, scraper: scraper_params ])
+    params.expect(newsletter: [ :name, :oldest_issue_to_crawl, crawler: crawler_params, scraper: scraper_params ])
   end
 
   def crawler_params
@@ -38,7 +38,7 @@ class NewslettersController < ApplicationController
 
   def scraper_params
     {
-      links_scraper: [ :link_block_selector, :anchor_selector, :blurb_selector, :cleanup_regexes ],
+      links_scraper: [ :link_block_selector, :anchor_selector, :blurb_selector, cleanup_regexes: [] ],
       publication_date_scraper: publication_date_scraper_params
     }
   end

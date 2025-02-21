@@ -25,7 +25,7 @@ class NewsletterTest < ActiveSupport::TestCase
     it "finds new issues" do
       existing_issues = build_list(:issue, 2)
       new_issues = build_list(:issue, 3)
-      newsletter = create(:newsletter, issues: existing_issues)
+      newsletter = create(:newsletter, issues: existing_issues, oldest_issue_to_crawl: 1)
 
       all_issues = existing_issues + new_issues
       crawler = simple_stub(crawl: all_issues.map { it.slice(:number, :url) })

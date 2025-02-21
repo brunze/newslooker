@@ -12,8 +12,11 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     # fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    # Add more helper methods to be used by all tests here.
     include FactoryBot::Syntax::Methods
+
+    # Normalize whitespace by default when using Capybara finders.
+    Capybara.default_normalize_ws = true
 
     # An abbreviated way of creating simple stubs.
     def simple_stub(**methods_to_stub)

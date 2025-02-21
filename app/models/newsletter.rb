@@ -5,9 +5,9 @@ class Newsletter < ApplicationRecord
   has_many :issues, dependent: :destroy
 
   validates :name, presence: true
+  validates :oldest_issue_to_crawl, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :scraper, presence: true, nested: true
   validates :crawler, presence: true, nested: true
-  validates :oldest_issue_to_crawl, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
   def crawl!(now: Time.current, **kwargs)
     crawl(**kwargs).each(&:save!)

@@ -7,7 +7,7 @@ FactoryBot.define do
         link_block_selector: ".link-block",
         anchor_selector: "a",
         blurb_selector: ".blurb",
-        cleanup_regexes: []
+        cleanup_regexes: (0..4).to_a.sample.times.map { Regexp.new(Faker::Lorem.word) }
       )
     end
     publication_date_scraper do
@@ -19,7 +19,7 @@ FactoryBot.define do
       else
         NodeTextPublicationDateScraper.new(
           node_selector: ".publication-date",
-          extractor_regex: "(\\w+ \\d+, \\d+)\\z"
+          extractor_regex: rand < 0.5 ? nil : %r{(\\w+ \\d+, \\d+)\\z}
         )
       end
     end

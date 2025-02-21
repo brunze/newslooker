@@ -1,4 +1,6 @@
 en:
+  attributes:
+    kind: Type
   activerecord:
     attributes:
       newsletter:
