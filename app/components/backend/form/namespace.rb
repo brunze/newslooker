@@ -9,7 +9,7 @@ Namespace = Data.define(:segments) do
     )
   end
 
-  def [](segment)
+  def [](segment = "")
     self.with(segments: segments + [ segment ])
   end
 
