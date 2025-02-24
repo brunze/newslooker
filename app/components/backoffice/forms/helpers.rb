@@ -4,18 +4,18 @@ module Helpers
   def text_control(*args, **kwargs)
     render case args
     in [Symbol | String => attribute_name, value]
-      SimpleInputControl.new(input_type: :text, attribute_name:, value:, **kwargs)
+      TextControl.new(attribute_name:, value:, **kwargs)
     in [model, attribute_name]
-      SimpleInputControl.new(input_type: :text, **derived_options(model, attribute_name), **kwargs)
+      TextControl.new(**derived_options(model, attribute_name), **kwargs)
     end
   end
 
   def number_control(*args, **kwargs)
     render case args
     in [Symbol | String => attribute_name, value]
-      SimpleInputControl.new(input_type: :number, attribute_name:, value:, **kwargs)
+      NumberControl.new(attribute_name:, value:, **kwargs)
     in [model, attribute_name]
-      SimpleInputControl.new(input_type: :number, **derived_options(model, attribute_name), **kwargs)
+      NumberControl.new(**derived_options(model, attribute_name), **kwargs)
     end
   end
 
