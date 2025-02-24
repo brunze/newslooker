@@ -1,0 +1,10 @@
+def H.disableUnless(el, enabled)
+  if enabled
+    remove @disabled from el
+  else
+    set el@disabled to true
+  end
+end
+def H.cloneTemplate(el)
+  return el.content.cloneNode(true)
+end
