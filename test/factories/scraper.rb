@@ -2,26 +2,17 @@ FactoryBot.define do
   factory :scraper do
     skip_create
 
-    links_scraper do
-      LinksScraper.new(
-        link_block_selector: ".link-block",
-        anchor_selector: "a",
-        blurb_selector: ".blurb",
-        cleanup_regexes: (0..4).to_a.sample.times.map { Regexp.new(Faker::Lorem.word) }
-      )
-    end
-    publication_date_scraper do
-      if rand > 0.5
-        NodeAttributePublicationDateScraper.new(
-          node_selector: "meta[property='article:published_time']",
-          node_attribute_name: "content"
-        )
-      else
-        NodeTextPublicationDateScraper.new(
-          node_selector: ".publication-date",
-          extractor_regex: rand < 0.5 ? nil : %r{(\\w+ \\d+, \\d+)\\z}
-        )
-      end
+    links_scraper
+    association :publication_date_scraper, factory: %i[
+      node_attribute_publication_date_scraper
+      node_text_publication_date_scraper
+    ].sample
+
+    trait :invalid do
+      links_scraper { nil }
+      publication_date_scraper { nil }
+
+      after(:build, &:validate)
     end
   end
 end

@@ -34,7 +34,45 @@ class CreateNewsletterTest < ApplicationSystemTestCase
     refute_content "bar_rx"
   end
 
+  test "hiding and disabling irrelevant fieldsets" do
+    visit new_newsletter_url
+
+    choose "Archive page crawler"
+    assert_visible_input_for :crawler, :archive_page_url
+    assert_visible_input_for :crawler, :issue_link_selector
+    assert_visible_input_for :crawler, :issue_number_regex
+    refute_visible_input_for :crawler, :url_template
+
+    choose "URL template crawler"
+    assert_visible_input_for :crawler, :url_template
+    refute_visible_input_for :crawler, :archive_page_url
+    refute_visible_input_for :crawler, :issue_link_selector
+    refute_visible_input_for :crawler, :issue_number_regex
+
+    choose "Get publication date from an HTML tag's attribute value"
+    assert_visible_input_for :scraper, :publication_date_scraper, :node_selector
+    assert_visible_input_for :scraper, :publication_date_scraper, :node_attribute_name
+    refute_visible_input_for :scraper, :publication_date_scraper, :extractor_regex
+
+    choose "Get publication date from an HTML tag's content"
+    assert_visible_input_for :scraper, :publication_date_scraper, :node_selector
+    assert_visible_input_for :scraper, :publication_date_scraper, :extractor_regex
+    refute_visible_input_for :scraper, :publication_date_scraper, :node_attribute_name
+  end
+
   private
+
+  def assert_visible_input_for(*fields)
+    assert_css("input[name='#{input_css_selector_for(*fields)}']", visible: true)
+  end
+
+  def refute_visible_input_for(*fields)
+    assert_no_css("input[name='#{input_css_selector_for(*fields)}']", visible: true)
+  end
+
+  def input_css_selector_for(*fields)
+    ::Backend::Form::Namespace[[ :newsletter, *fields ]]
+  end
 
   def fill_in_newsletter_details(newsletter)
     fill_in "Name", with: newsletter.name

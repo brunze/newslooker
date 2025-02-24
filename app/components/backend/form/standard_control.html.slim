@@ -4,7 +4,4 @@ fieldset disabled=disabled *wrapper_attributes
 
   = content
 
-  - if errors.any?
-    ul.errors
-      - errors.each do |error|
-        li = error
+  = render validation_errors

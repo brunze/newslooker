@@ -93,7 +93,7 @@
       "problemMatcher": []
     },
     {
-      "command": "bin/rails test",
+      "command": "bin/rails test:all",
       "label": "Run all tests in project",
       "type": "shell",
       "presentation": {

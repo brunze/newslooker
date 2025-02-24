@@ -28,4 +28,7 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  errors:
+    messages:
+      not_http_url: must be a HTTP(S) URL
+      not_regexp: must be a valid regular expression

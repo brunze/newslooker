@@ -22,6 +22,10 @@ class StandardControl < ApplicationComponent
     :attribute_name, :value, :namespace,
     :input_name, :label, :label_for, :errors,
     :disabled, :required, :wrapper_attributes, :other_attributes
+
+  def validation_errors
+    ::Backend::Form::ValidationErrors.new(messages: errors)
+  end
 end
 end
 end

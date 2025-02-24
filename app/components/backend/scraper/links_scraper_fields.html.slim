@@ -5,12 +5,16 @@
 fieldset
   legend = human_attribute_name(scraper, :cleanup_regexes)
 
+  = validation_errors(scraper, :cleanup_regexes)
+
   template
     fieldset
       = cleanup_regex_input
       button script="on click remove closest <fieldset/>" ❌
 
   - scraper.cleanup_regexes.each do |regex|
-    = cleanup_regex_input(regex)
+    fieldset
+      = cleanup_regex_input(regex)
+      button script="on click remove closest <fieldset/>" ❌
 
   button script="on click H.cloneTemplate(previous <template/>) then put it before me then halt" +

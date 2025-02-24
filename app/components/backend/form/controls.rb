@@ -28,6 +28,15 @@ module Controls
     end
   end
 
+  def validation_errors(*args, **kwargs)
+    render case args
+    in [Array => messages]
+      ValidationErrors.new(messages:, **kwargs)
+    in [model, attribute_name]
+      ValidationErrors.new(messages: model.errors.full_messages_for(attribute_name), **kwargs)
+    end
+  end
+
   private
 
   def to_namespace(...)
