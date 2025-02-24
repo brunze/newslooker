@@ -1,6 +1,6 @@
-module Backend
-module Form
-module Controls
+module Backoffice
+module Forms
+module Helpers
   def text_control(*args, **kwargs)
     render case args
     in [Symbol | String => attribute_name, value]

@@ -1,7 +1,7 @@
-module Backend
+module Backoffice
 module Newsletters
 class Fields < ApplicationComponent
-  include ::Backend::Form::Controls
+  include ::Backoffice::Forms::Helpers
 
   def initialize(newsletter: nil, namespace: nil)
     @newsletter = newsletter || ::Newsletter.new
@@ -14,7 +14,7 @@ class Fields < ApplicationComponent
   end
 
   def scraper_fields
-    Scraper::Fields.new(scraper: newsletter.scraper, namespace: namespace[:scraper])
+    Scrapers::Fields.new(scraper: newsletter.scraper, namespace: namespace[:scraper])
   end
 end
 end

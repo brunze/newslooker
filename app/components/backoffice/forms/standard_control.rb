@@ -1,5 +1,5 @@
-module Backend
-module Form
+module Backoffice
+module Forms
 class StandardControl < ApplicationComponent
   def initialize(
     attribute_name:, value:,
@@ -24,7 +24,7 @@ class StandardControl < ApplicationComponent
     :disabled, :required, :wrapper_attributes, :other_attributes
 
   def validation_errors
-    ::Backend::Form::ValidationErrors.new(messages: errors)
+    ::Backoffice::Forms::ValidationErrors.new(messages: errors)
   end
 end
 end

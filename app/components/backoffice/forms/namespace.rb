@@ -1,5 +1,5 @@
-module Backend
-module Form
+module Backoffice
+module Forms
 Namespace = Data.define(:segments) do
   def initialize(segments: [])
     super(

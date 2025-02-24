@@ -16,13 +16,13 @@ class NewslettersController < ApplicationController
   def show
     newsletter = Newsletter.find(params[:id])
 
-    render Backend::Newsletters::Pages::Show.new(newsletter:)
+    render Backoffice::Newsletters::Pages::Show.new(newsletter:)
   end
 
   private
 
   def newsletter_form(newsletter = Newsletter.new)
-    Backend::Newsletters::Form.new(newsletter:)
+    Backoffice::Newsletters::Form.new(newsletter:)
   end
 
   def newsletter_params

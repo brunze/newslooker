@@ -28,6 +28,6 @@ class NewsletterFormComponentPreview < ViewComponent::Preview
   private
 
   def form(newsletter)
-    Backend::Newsletters::Form.new(newsletter:)
+    Backoffice::Newsletters::Form.new(newsletter:)
   end
 end

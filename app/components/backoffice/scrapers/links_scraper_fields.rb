@@ -1,7 +1,7 @@
-module Backend
-module Scraper
+module Backoffice
+module Scrapers
 class LinksScraperFields < ApplicationComponent
-  include ::Backend::Form::Controls
+  include ::Backoffice::Forms::Helpers
 
   def initialize(scraper: nil, namespace: nil)
     @scraper = scraper || ::LinksScraper.new

@@ -1,7 +1,7 @@
-module Backend
+module Backoffice
 module Crawlers
 class URLTemplateCrawlerFields < ApplicationComponent
-  include ::Backend::Form::Controls
+  include ::Backoffice::Forms::Helpers
 
   def initialize(crawler: nil, namespace: nil)
     @crawler = crawler || ::URLTemplateCrawler.new

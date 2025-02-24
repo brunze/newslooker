@@ -1,4 +1,4 @@
-module Backend
+module Backoffice
 module Newsletters
 module Pages
 class Show < ApplicationComponent

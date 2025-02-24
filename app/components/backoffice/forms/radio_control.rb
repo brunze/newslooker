@@ -1,5 +1,5 @@
-module Backend
-module Form
+module Backoffice
+module Forms
 class RadioControl < StandardControl
   def initialize(options:, **kwargs)
     super(**kwargs)

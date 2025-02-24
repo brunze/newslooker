@@ -58,6 +58,6 @@ class NewsletterFormComponentTest < ViewComponent::TestCase
 
   def validate_and_render(newsletter)
     newsletter.validate
-    render_inline(Backend::Newsletters::Form.new(newsletter:))
+    render_inline(Backoffice::Newsletters::Form.new(newsletter:))
   end
 end

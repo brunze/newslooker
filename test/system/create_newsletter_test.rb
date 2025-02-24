@@ -71,7 +71,7 @@ class CreateNewsletterTest < ApplicationSystemTestCase
   end
 
   def input_css_selector_for(*fields)
-    ::Backend::Form::Namespace[[ :newsletter, *fields ]]
+    ::Backoffice::Forms::Namespace[[ :newsletter, *fields ]]
   end
 
   def fill_in_newsletter_details(newsletter)

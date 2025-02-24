@@ -1,4 +1,4 @@
-module Backend
+module Backoffice
 module Newsletters
 class Form < ApplicationComponent
   def initialize(newsletter: nil)
@@ -7,7 +7,7 @@ class Form < ApplicationComponent
   attr_reader :newsletter
 
   def newsletter_fields
-    Fields.new(newsletter:, namespace: ::Backend::Form::Namespace[[ "newsletter" ]])
+    Fields.new(newsletter:, namespace: ::Backoffice::Forms::Namespace[[ "newsletter" ]])
   end
 end
 end

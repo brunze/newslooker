@@ -1,5 +1,5 @@
-module Backend
-module Form
+module Backoffice
+module Forms
 class SimpleInputControl < StandardControl
   def initialize(input_type:, **kwargs)
     super(**kwargs)
