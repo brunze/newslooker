@@ -119,6 +119,15 @@
       "problemMatcher": []
     },
     {
+      "command": "VISUAL='code --wait' bin/rails credentials:edit",
+      "label": "Edit credentials files",
+      "type": "shell",
+      "icon": {
+        "id": "edit"
+      },
+      "problemMatcher": []
+    },
+    {
       "command": "bin/dev",
       "label": "Start dev server",
       "type": "shell",

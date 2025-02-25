@@ -21,7 +21,7 @@ class EmbeddingsService
 
   def client
     @client ||= Mistral.new(
-      credentials: { api_key: ENV.fetch("MISTRAL_API_KEY") },
+      credentials: { api_key: Rails.application.credentials.mistral_api_key! },
     )
   end
 
