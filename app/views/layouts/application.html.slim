@@ -18,8 +18,15 @@ html
     link rel="icon" href="/icon.svg" type="image/svg+xml"
     link rel="apple-touch-icon" href="/icon.png"
 
+    style
+      |
+        @import "#{asset_path("open-props@1.7.13/open-props.min.css")}" layer(open-props);
+        @import "#{asset_path("open-props@1.7.13/normalize.min.css")}" layer(open-props);
+        @import "#{asset_path("open-props@1.7.13/buttons.min.css")}" layer(open-props);
+
     / Includes all stylesheet files in app/assets/stylesheets
     = stylesheet_link_tag :app
+
     = hyperscript_include_tag :helpers
     = javascript_importmap_tags
 

@@ -1,0 +1,29 @@
+@layer base {
+
+  :root {
+    --color-brand: var(--blue-2);
+    --color-error: var(--red-7);
+    --radius-standard: var(--radius-2);
+  }
+
+  body {
+    font-family: var(--font-rounded-sans);
+    font-size: 16px;
+    accent-color: var(--color-brand);
+    caret-color: initial;
+  }
+
+  * {
+    outline-color: var(--color-brand);
+  }
+
+  a {
+    color: var(--color-brand);
+  }
+
+  button, input[type="submit"], input[type="button"] {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+
+}

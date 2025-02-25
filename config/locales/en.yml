@@ -28,6 +28,8 @@
 #       enabled: "ON"
 
 en:
+  add: Add
+  remove: Remove
   errors:
     messages:
       not_http_url: must be a HTTP(S) URL

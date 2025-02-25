@@ -7,14 +7,16 @@ fieldset
 
   = validation_errors(scraper, :cleanup_regexes)
 
-  template
-    fieldset
-      = cleanup_regex_input
-      button script="on click remove closest <fieldset/>" ❌
+  / TODO extract this to a re-usable ViewComponent
+  .CloneableControl
+    template clone-template=true
+      .clone cloned-control=true
+        = cleanup_regex_input
+        button script="on click remove closest <[cloned-control]/>" = t("remove")
 
-  - scraper.cleanup_regexes.each do |regex|
-    fieldset
-      = cleanup_regex_input(regex)
-      button script="on click remove closest <fieldset/>" ❌
+    - scraper.cleanup_regexes.each do |regex|
+      .clone cloned-control=true
+        = cleanup_regex_input(regex)
+        button script="on click remove closest <[cloned-control]/>" = t("remove")
 
-  button script="on click H.cloneTemplate(previous <template/>) then put it before me then halt" +
+    button script="on click H.cloneTemplate(previous <[clone-template]/>) then put it before me then halt" = t("add")

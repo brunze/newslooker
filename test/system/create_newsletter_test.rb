@@ -125,14 +125,14 @@ class CreateNewsletterTest < ApplicationSystemTestCase
   class CleanupRegexesFieldset
     def initialize(page)
       @fieldset = page.find("legend", text: "Cleanup regular expressions").find(:xpath, "..")
-      @add_button = @fieldset.find("button", text: "+")
+      @add_button = @fieldset.find("button", text: "Add")
     end
     def add(regex)
       @add_button.click
       @fieldset.all("input").last.fill_in(with: regex.try(:source) || regex.to_s)
     end
     def remove_at(index)
-      @fieldset.all("input").to_a[index].sibling("button", text: "❌").click
+      @fieldset.all("input").to_a[index].sibling("button", text: "Remove").click
     end
   end
 
