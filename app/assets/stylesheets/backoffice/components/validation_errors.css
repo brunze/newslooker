@@ -1,13 +1,13 @@
 @layer components {
 
   .ValidationErrors {
-    padding: var(--size-2);
+    padding: var(--space-smaller);
     background-color: rgb(from var(--color-error) r g b / 0.2);
     border-radius: var(--radius-standard);
     color: var(--color-error);
 
     li {
-      font-size: var(--font-size-1);
+      font-size: var(--font-size-smaller);
     }
   }
 

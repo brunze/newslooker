@@ -1,16 +1,33 @@
 @layer base {
 
   :root {
-    --color-brand: var(--blue-2);
+    --surface-1: var(--gray-8);
+    --surface-2: var(--gray-7);
+    --surface-3: var(--gray-6);
+    --surface-4: var(--gray-5);
+    --surface-shadow: var(--gray-9-hsl);
+    --shadow-strength: 20%;
+    --font-size-standard: var(--font-size-2);
+    --font-size-smaller: var(--font-size-1);
+    --font-size-larger: var(--font-size-3);
+    --text-color-1: var(--gray-3);
+    --text-color-2: var(--gray-4);
+    --color-brand: var(--sand-3);
     --color-error: var(--red-7);
     --radius-standard: var(--radius-2);
+    --shadow-standard: var(--shadow-2);
+    --space-standard: var(--size-3);
+    --space-smaller: var(--size-2);
+    --space-larger: var(--size-4);
   }
 
   body {
-    font-family: var(--font-rounded-sans);
-    font-size: 16px;
+    background-color: var(--surface-1);
     accent-color: var(--color-brand);
     caret-color: initial;
+    color: var(--text-color-1);
+    font-family: var(--font-rounded-sans);
+    font-size: 16px;
   }
 
   * {
@@ -19,6 +36,8 @@
 
   a {
     color: var(--color-brand);
+    text-decoration-color: var(--color-brand);
+    font-size: var(--font-size-standard);
   }
 
   button, input[type="submit"], input[type="button"] {

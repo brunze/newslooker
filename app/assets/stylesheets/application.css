@@ -9,4 +9,4 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-@layer open-props, reset, base, components;
+@layer open-props, reset, base, components, pages;

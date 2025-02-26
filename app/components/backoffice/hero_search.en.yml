@@ -1,0 +1,11 @@
+en:
+  search_cta: look for something!
+  placeholders:
+    - rich text editor
+    - mesh gradient tool
+    - postgres json cheatsheet
+    - postgres merge statement
+    - ruby flip-flop expression
+    - ruby pattern matching
+    - easy CSV processing in ruby
+    - jupyter notebooks but ruby

@@ -2,18 +2,18 @@
 
   .Form {
     max-width: var(--size-content-3);
-    padding: var(--size-3);
+    padding: var(--space-standard);
 
     &, & > fieldset {
       display: flex;
       flex-direction: column;
-      gap: var(--size-3);
+      gap: var(--space-standard);
     }
 
     .StandardControl {
       display: flex;
       flex-direction: column;
-      gap: var(--size-2);
+      gap: var(--space-smaller);
 
       label, input:not([type="radio"], [type="checkbox"]) {
         display: block;
@@ -23,7 +23,7 @@
       label:has(> input[type="radio"], > input[type="checkbox"]) {
         display: flex;
         flex-direction: row;
-        gap: var(--size-2);
+        gap: var(--space-smaller);
         align-items: center;
 
         + & {

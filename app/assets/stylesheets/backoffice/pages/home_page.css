@@ -1,0 +1,18 @@
+@layer pages {
+
+  .HomePage main {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-template-columns: 1fr;
+    gap: var(--space-standard);
+
+    @media (min-width: 1000px) {
+      grid-template-columns: 2fr 1fr;
+
+      .HeroSearch {
+        grid-column: 1 / span 2;
+      }
+    }
+  }
+
+}

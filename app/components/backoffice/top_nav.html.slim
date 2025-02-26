@@ -1,0 +1,4 @@
+nav.TopNav
+  - links.each do |link|
+    - link => href:, label:, current:
+    a href=href class=("current" if current) = label

@@ -30,6 +30,7 @@
 en:
   add: Add
   remove: Remove
+  show_all: Show All
   errors:
     messages:
       not_http_url: must be a HTTP(S) URL

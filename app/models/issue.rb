@@ -8,7 +8,7 @@ class Issue < ApplicationRecord
   scope :unscraped, -> { where(last_scraped_at: nil) }
 
   def title
-    super || [ newsletter&.name, number ].compact.join(" — ")
+    [ newsletter&.name, number ].compact.join(" — ")
   end
 
   def scrape!(scraper: newsletter.scraper, now: Time.current, http: HTTPService.default)

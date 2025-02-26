@@ -1,0 +1,45 @@
+@layer components {
+
+  .RecentLinks {
+    h1, h2, h3, h4, h5, h6 {
+      display: flex;
+      align-items: baseline;
+      margin-block-end: var(--space-smaller);
+      max-inline-size: none;
+
+      span {
+        flex-grow: 1;
+      }
+      .show-all {
+        flex-grow: 0;
+      }
+    }
+
+    .surface {
+      background-color: var(--surface-2);
+      border-radius: var(--radius-standard);
+      box-shadow: var(--shadow-standard);
+      padding: var(--space-standard);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-standard);
+    }
+
+    .link {
+      p {
+        max-inline-size: none;
+      }
+
+      .issue {
+        font-size: var(--font-size-smaller);
+        text-transform: uppercase;
+        opacity: 0.5;
+      }
+
+      .blurb {
+        font-size: var(--font-size-smaller);
+      }
+    }
+  }
+
+}

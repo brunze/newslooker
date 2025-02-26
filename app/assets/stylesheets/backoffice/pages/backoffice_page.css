@@ -1,0 +1,10 @@
+@layer pages {
+
+  .BackofficePage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-standard);
+    padding: var(--space-standard);
+  }
+
+}

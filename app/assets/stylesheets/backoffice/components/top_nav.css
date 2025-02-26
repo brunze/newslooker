@@ -1,0 +1,31 @@
+@layer components {
+
+  .TopNav {
+    display: flex;
+    flex-direction: row;
+    gap: var(--size-6);
+    padding: var(--space-standard);
+    background-color: var(--surface-2);
+    border-radius: var(--radius-standard);
+    box-shadow: var(--shadow-standard);
+
+    > a {
+      display: inline-block;
+      padding-block: var(--size-2);
+      padding-inline: var(--size-3);
+      border-radius: var(--radius-standard);
+      text-decoration: none;
+
+      &:hover {
+        background-color: var(--surface-3);
+        color: var(--text-color-1);
+        cursor: pointer;
+      }
+
+      &.current {
+        text-decoration: underline;
+      }
+    }
+  }
+
+}

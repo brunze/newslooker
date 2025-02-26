@@ -3,12 +3,12 @@
   .CloneableControl {
     display: flex;
     flex-direction: column;
-    gap: var(--size-2);
+    gap: var(--space-smaller);
 
     .clone {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: var(--size-2);
+      gap: var(--space-smaller);
     }
   }
 
