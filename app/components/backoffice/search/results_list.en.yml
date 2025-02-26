@@ -1,0 +1,5 @@
+en:
+  n_results_found:
+    zero: no results found
+    one: 1 result found
+    other: "%{count} results found"

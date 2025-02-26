@@ -14,11 +14,14 @@ module Home
 
         .surface
           - links.each do |link|
-            .link
-              a href=link.url = link.text
-              p.issue = link.issue.title
-              p.blurb = link.blurb
+            = render standard_link(link)
     SLIM
+
+    private
+
+    def standard_link(link)
+      Backoffice::Links::StandardLink.new(link:)
+    end
   end
 end
 end

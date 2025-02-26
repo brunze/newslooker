@@ -5,7 +5,6 @@
       display: flex;
       align-items: baseline;
       margin-block-end: var(--space-smaller);
-      max-inline-size: none;
 
       span {
         flex-grow: 1;
@@ -23,22 +22,6 @@
       display: flex;
       flex-direction: column;
       gap: var(--space-standard);
-    }
-
-    .link {
-      p {
-        max-inline-size: none;
-      }
-
-      .issue {
-        font-size: var(--font-size-smaller);
-        text-transform: uppercase;
-        opacity: 0.5;
-      }
-
-      .blurb {
-        font-size: var(--font-size-smaller);
-      }
     }
   }
 

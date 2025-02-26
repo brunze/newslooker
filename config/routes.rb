@@ -13,5 +13,7 @@ Rails.application.routes.draw do
   resources :issues, only: %i[index show]
   resources :links, only: %i[index]
 
+  resource :search, only: %i[show]
+
   root "home#show"
 end

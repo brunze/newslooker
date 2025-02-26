@@ -1,0 +1,15 @@
+@layer components {
+
+  .StandardLink {
+    .issue {
+      font-size: var(--font-size-smaller);
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .blurb {
+      font-size: var(--font-size-smaller);
+    }
+  }
+
+}
