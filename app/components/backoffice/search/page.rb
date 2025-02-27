@@ -9,6 +9,8 @@ module Search
 
     private
 
+    def page_class =  "SearchPage"
+
     def main_content
       render(HeroSearch.new(needle:)) +
       render(ResultsList.new(links:))

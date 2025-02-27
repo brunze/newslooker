@@ -8,6 +8,8 @@ module Home
 
     private
 
+    def page_class = "HomePage"
+
     def top_nav_options
       super.deep_merge({ current: :home })
     end

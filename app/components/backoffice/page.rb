@@ -20,7 +20,11 @@ module Backoffice
     end
 
     def page_classes
-      [ "BackofficePage", self.class.name.demodulize ]
+      [ "BackofficePage", page_class ].compact
+    end
+
+    def page_class
+      nil
     end
   end
 end
