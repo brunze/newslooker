@@ -1,24 +1,7 @@
 @layer components {
 
   .RecentLinks {
-    h1, h2, h3, h4, h5, h6 {
-      display: flex;
-      align-items: baseline;
-      margin-block-end: var(--space-smaller);
-
-      span {
-        flex-grow: 1;
-      }
-      .show-all {
-        flex-grow: 0;
-      }
-    }
-
-    .surface {
-      background-color: var(--surface-2);
-      border-radius: var(--radius-standard);
-      box-shadow: var(--shadow-standard);
-      padding: var(--space-standard);
+    .links {
       display: flex;
       flex-direction: column;
       gap: var(--space-standard);

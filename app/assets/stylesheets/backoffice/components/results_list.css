@@ -1,17 +1,6 @@
 @layer components {
 
   .ResultsList {
-    h1, h2, h3, h4, h5, h6 {
-      margin-block-end: var(--space-smaller);
-    }
-
-    .surface {
-      background-color: var(--surface-2);
-      border-radius: var(--radius-standard);
-      box-shadow: var(--shadow-standard);
-      padding: var(--space-standard);
-    }
-
     ul {
       list-style: none;
       display: flex;

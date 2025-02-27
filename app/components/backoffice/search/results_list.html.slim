@@ -1,0 +1,11 @@
+= render ::Backoffice::Surface.new(classes: "ResultsList") do |surface|
+
+  - surface.with_heading do
+    h3 = t(".n_results_found", count: links.size)
+
+  - if links.any?
+    ul
+      - links.each do |link|
+        li = render standard_link(link)
+  - else
+    .empty-state ¯\\_(ツ)_/¯

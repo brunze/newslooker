@@ -1,0 +1,11 @@
+= render ::Backoffice::Surface.new(classes: "RecentIssues") do |surface|
+
+  - surface.with_heading do
+    h3 = t(".recent_issues")
+
+  - surface.with_header_extras do
+    a.show-all href=issues_path = t("show_all")
+
+  .issues
+    - issues.each do |issue|
+      a href=issue_path(issue) = issue.title

@@ -1,0 +1,26 @@
+@layer components {
+
+  .Surface {
+    header {
+      margin-block-end: var(--space-smaller);
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-standard);
+
+      .heading {
+        flex-grow: 1;
+      }
+      .extras {
+        flex-grow: 0;
+      }
+    }
+
+    .content {
+      background-color: var(--surface-2);
+      border-radius: var(--radius-standard);
+      box-shadow: var(--shadow-standard);
+      padding: var(--space-standard);
+    }
+  }
+
+}
