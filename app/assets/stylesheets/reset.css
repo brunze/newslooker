@@ -14,9 +14,13 @@
     padding-inline-start: 0;
   }
 
-  p, li, dd, figcaption, ul, ol, dl,
+  p, ul, ol, li, dl, dt, dd, figcaption,
   h1, h2, h3, h4, h5, h6 {
     max-inline-size: none;
+  }
+
+  dl, dt, dd {
+    margin: 0;
   }
 
 }

@@ -1,0 +1,30 @@
+@layer components {
+
+  .NewsletterAttributes {
+    dl {
+      display: grid;
+      grid-template-columns: 2ch minmax(auto, 10ch) 1fr;
+      align-items: baseline;
+      gap: var(--space-standard);
+
+      dt {
+        grid-column: 1 / span 2;
+      }
+      dd {
+        grid-column: 3;
+      }
+    }
+    dd:has(> dl) {
+      grid-column: 2 / span 2;
+    }
+
+    dt {
+      opacity: 0.7;
+      font-variant: all-small-caps;
+    }
+    dt, dd {
+      line-height: var(--font-lineheight-0);
+    }
+  }
+
+}

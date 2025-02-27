@@ -1,0 +1,14 @@
+@layer pages {
+
+  .NewsletterShowPage main {
+
+    .Surface:has(.NewsletterAttributes) {
+      header {
+        margin-block-start: var(--size-10);
+        margin-block-end: var(--size-6);
+      }
+    }
+
+  }
+
+}

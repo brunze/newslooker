@@ -4,7 +4,8 @@ module Backoffice
 
     slim_template <<~SLIM
       div(class=page_classes)
-        = render top_nav
+        header
+          = render top_nav
         main
           = main_content
     SLIM
