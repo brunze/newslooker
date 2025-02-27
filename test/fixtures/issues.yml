@@ -3,13 +3,11 @@
 ruby_weekly_737:
   number: 737
   url: "https://rubyweekly.com/issues/737"
-  title: "Ruby Weekly #737"
   published_at: "2025-02-06 09:00:00"
   newsletter: ruby_weekly
 
 ruby_weekly_736:
   number: 736
   url: "https://rubyweekly.com/issues/736"
-  title: "Ruby Weekly #736"
   published_at: "2025-01-30 09:00:00"
   newsletter: ruby_weekly

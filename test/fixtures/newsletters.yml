@@ -2,9 +2,20 @@
 
 ruby_weekly:
   name: "Ruby Weekly"
+  oldest_issue_to_crawl: 42
+  crawler:
+    kind: "ArchivePageCrawler"
+    archive_page_url: "https://rubyweekly.com/issues"
+    issue_link_selector: "a"
+    issue_number_regex: "/issues/(\\d+)"
   scraper:
-    link_block_selector: "td:has(.mainlink):not(:has(.tag-sponsor))"
-    link_selector: "a"
-    link_blurb_selector: "p"
-    cleanup_regexes:
-      - "\\A\\s*—\\s*"
+    links_scraper:
+      link_block_selector: ".link-block"
+      anchor_selector: "a"
+      blurb_selector: ".blurb"
+      cleanup_regexes:
+        - "\\A\\s*—\\s*"
+    publication_date_scraper:
+      kind: "NodeTextPublicationDateScraper"
+      node_selector: ".publication-date"
+      extractor_regex: "(\\w+ \\d+, \\d+)\\z"
