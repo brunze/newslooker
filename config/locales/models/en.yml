@@ -8,6 +8,11 @@ en:
         oldest_issue_to_crawl: Oldest issue number to index
         crawler: Crawler
         scraper: Scraper
+      issue:
+        number: Number
+        url: URL
+        published_at: Publication date
+        last_scraped_at: Last scraped
   activemodel:
     attributes:
       archive_page_crawler:

@@ -1,10 +1,25 @@
 @layer pages {
 
   .BackofficePage {
+    --chunky-space: var(--size-9);
+    --gap-space: var(--space-standard);
+
     display: flex;
     flex-direction: column;
-    gap: var(--space-standard);
+    gap: var(--gap-space);
     padding: var(--space-standard);
+
+    main > .Surface:first-child {
+      header {
+        margin-block-start: calc(var(--chunky-space) - var(--gap-space));
+        margin-block-end: var(--chunky-space);
+        align-items: center;
+
+        h1, h2, h3, h4, h5, h6 {
+          font-size: var(--font-size-7);
+        }
+      }
+    }
   }
 
 }

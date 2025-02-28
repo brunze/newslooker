@@ -1,10 +1,13 @@
 en:
   search_cta: look for something!
   placeholders:
-    - rich text editor
     - mesh gradient tool
+    - rich text editor
+    - css subgrid
+    - exotic css units
     - postgres json cheatsheet
     - postgres merge statement
+    - keyset pagination gem
     - ruby flip-flop expression
     - ruby pattern matching
     - easy CSV processing in ruby

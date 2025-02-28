@@ -8,7 +8,8 @@ module Backoffice
     def links
       [
         Link.new("/",            t(".home"),        current == :home),
-        Link.new("/newsletters", t(".newsletters"), current == :newsletters)
+        Link.new("/newsletters", t(".newsletters"), current == :newsletters),
+        Link.new("/issues",      t(".issues"),      current == :issues)
       ]
     end
 

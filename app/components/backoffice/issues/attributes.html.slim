@@ -1,0 +1,10 @@
+.IssueAttributes
+  dl
+    dt = human_attribute_name(issue, :number)
+    dd = issue.number
+    dt = human_attribute_name(issue, :url)
+    dd = issue.url
+    dt = human_attribute_name(issue, :published_at)
+    dd = issue.published_at || "␀"
+    dt = human_attribute_name(issue, :last_scraped_at)
+    dd = issue.last_scraped_at || "␀"

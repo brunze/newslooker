@@ -1,6 +1,6 @@
 @layer components {
 
-  .NewsletterAttributes {
+  .NewsletterAttributes, .IssueAttributes {
     dl {
       display: grid;
       grid-template-columns: 2ch minmax(auto, 10ch) 1fr;

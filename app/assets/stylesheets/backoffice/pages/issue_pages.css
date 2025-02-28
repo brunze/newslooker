@@ -1,0 +1,16 @@
+@layer pages {
+
+  .IssueShowPage {
+    .IssueLinks {
+      margin-block-start: var(--chunky-space);
+
+      ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-standard);
+      }
+    }
+  }
+
+}
