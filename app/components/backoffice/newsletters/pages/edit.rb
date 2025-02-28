@@ -1,7 +1,7 @@
 module Backoffice
 module Newsletters
 module Pages
-class Show < Page
+class Edit < Page
   def initialize(newsletter:)
     @newsletter = newsletter
   end
@@ -9,22 +9,19 @@ class Show < Page
 
   private
 
-  def page_class =  "NewsletterShowPage"
+  def page_class = "NewsletterEditPage"
 
   def main_content
     render Surface.new do |surface|
       surface.with_heading do
         tag.h1 newsletter.name
       end
-      surface.with_header_extras do
-        link_to t("edit"), edit_newsletter_path(newsletter), class: "btn"
-      end
-      render newsletter_attributes
+      render newsletter_form
     end
   end
 
-  def newsletter_attributes
-    Backoffice::Newsletters::Attributes.new(newsletter:)
+  def newsletter_form
+    Form.new(newsletter:)
   end
 end
 end

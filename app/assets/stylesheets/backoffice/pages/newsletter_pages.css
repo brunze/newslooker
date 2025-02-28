@@ -1,0 +1,17 @@
+@layer pages {
+
+  .NewsletterPage {
+    main > .Surface:first-child {
+      header {
+        margin-block-start: var(--size-8);
+        margin-block-end: var(--size-9);
+        align-items: center;
+
+        h1, h2, h3, h4, h5, h6 {
+          font-size: var(--font-size-7);
+        }
+      }
+    }
+  }
+
+}

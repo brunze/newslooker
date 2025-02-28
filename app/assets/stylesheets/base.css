@@ -40,9 +40,19 @@
     font-size: var(--font-size-standard);
   }
 
-  button, input[type="submit"], input[type="button"] {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
+  button, input[type="submit"], input[type="button"], .btn {
+    color: var(--text-color-1);
+    background-color: var(--surface-3);
+    border-color: var(--surface-3);
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      transition: 0.1s;
+      filter: brightness(1.25);
+    }
   }
 
 }

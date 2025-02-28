@@ -9,6 +9,10 @@
 
       .heading {
         flex-grow: 1;
+
+        h1, h2, h3, h4, h5, h6 {
+          font-size: var(--font-size-5);
+        }
       }
       .extras {
         flex-grow: 0;

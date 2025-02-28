@@ -12,7 +12,7 @@ class RadioControl < StandardControl
   end
 
   def content
-    Tilt.new(__dir__ + "/radio_control_content.html.slim").render(self).html_safe
+    render_slim_template(__dir__ + "/radio_control_content")
   end
 end
 end

@@ -2,9 +2,9 @@
 
   .ValidationErrors {
     padding: var(--space-smaller);
-    background-color: rgb(from var(--color-error) r g b / 0.2);
     border-radius: var(--radius-standard);
-    color: var(--color-error);
+    background-color: var(--color-error);
+    color: var(--text-color-1);
 
     li {
       font-size: var(--font-size-smaller);

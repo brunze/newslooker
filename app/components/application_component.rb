@@ -10,4 +10,12 @@ class ApplicationComponent < ViewComponent::Base
       t(".#{attribute_name}")
     end
   end
+
+  def render_slim(slim)
+    Slim::Template.new { slim }.render(self).html_safe
+  end
+
+  def render_slim_template(path)
+    Tilt.new("#{path}.html.slim").render(self).html_safe
+  end
 end

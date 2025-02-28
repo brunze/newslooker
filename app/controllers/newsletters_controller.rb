@@ -1,6 +1,6 @@
 class NewslettersController < ApplicationController
   def new
-    render newsletter_form
+    render Backoffice::Newsletters::Pages::New.new
   end
 
   def create
@@ -9,7 +9,7 @@ class NewslettersController < ApplicationController
     if newsletter.save
       redirect_to newsletter_url(newsletter)
     else
-      render newsletter_form(newsletter), status: :unprocessable_entity
+      render Backoffice::Newsletters::Pages::New.new(newsletter:)
     end
   end
 
@@ -19,11 +19,29 @@ class NewslettersController < ApplicationController
     render Backoffice::Newsletters::Pages::Show.new(newsletter:)
   end
 
-  private
+  def edit
+    newsletter = Newsletter.find(params[:id])
 
-  def newsletter_form(newsletter = Newsletter.new)
-    Backoffice::Newsletters::Form.new(newsletter:)
+    render Backoffice::Newsletters::Pages::Edit.new(newsletter:)
   end
+
+  def update
+    newsletter = Newsletter.find(params[:id])
+
+    if newsletter.update(newsletter_params)
+      redirect_to newsletter_url(newsletter)
+    else
+      render Backoffice::Newsletters::Pages::Edit.new(newsletter:)
+    end
+  end
+
+  def index
+    newsletters = Newsletter.order(created_at: :desc).limit(100)
+
+    render Backoffice::Newsletters::Pages::Index.new(newsletters:)
+  end
+
+  private
 
   def newsletter_params
     params.expect(newsletter: [ :name, :oldest_issue_to_crawl, crawler: crawler_params, scraper: scraper_params ])
