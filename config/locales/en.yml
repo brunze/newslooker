@@ -32,6 +32,7 @@ en:
   edit: Edit
   remove: Remove
   show_all: Show All
+  load_more: Show More
   errors:
     messages:
       not_http_url: must be a HTTP(S) URL

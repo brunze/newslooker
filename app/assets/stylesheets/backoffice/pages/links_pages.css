@@ -1,0 +1,9 @@
+@layer pages {
+
+  .LinkIndexPage {
+    .LinkList {
+      margin-block-end: var(--space-larger);
+    }
+  }
+
+}

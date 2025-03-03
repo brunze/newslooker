@@ -41,6 +41,7 @@ gem "excon"
 gem "mistral-ai"
 gem "neighbor"
 gem "nokogiri"
+gem "pagy"
 gem "pgvector"
 gem "slim"
 gem "view_component"
@@ -56,6 +57,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "faker"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -69,5 +71,4 @@ group :test do
   gem "selenium-webdriver"
 
   gem "minitest-spec-rails"
-  gem "factory_bot_rails"
 end
