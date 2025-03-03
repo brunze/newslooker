@@ -1,7 +1,7 @@
 class LinksController < ApplicationController
   def index
     pagy, links = pagy_keyset(
-      Link.order(created_at: :desc, id: :desc),
+      Link.order(created_at: :desc, id: :desc).includes(issue: [ :newsletter ]),
       tuple_comparison: true,
     )
 

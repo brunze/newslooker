@@ -1,7 +1,7 @@
 class IssuesController < ApplicationController
   def index
     pagy, issues = pagy_keyset(
-      Issue.order(created_at: :desc, id: :desc),
+      Issue.order(created_at: :desc, id: :desc).includes(:newsletter),
       tuple_comparison: true,
     )
 

@@ -8,9 +8,9 @@ class Link < ApplicationRecord
 
   scope :without_embedding, -> { where(embedding: nil) }
 
-  def self.similar_to(needle, limit: 10, embeddings: EmbeddingsService.default)
+  def self.similar_to(needle, embeddings: EmbeddingsService.default)
     needle_embedding = embeddings.fetch(needle.to_str)
-    self.nearest_neighbors(:embedding, needle_embedding, distance: "euclidean").first(limit)
+    self.nearest_neighbors(:embedding, needle_embedding, distance: "euclidean")
   end
 
   def fetch_embedding!(...)
