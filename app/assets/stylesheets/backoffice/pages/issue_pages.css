@@ -6,4 +6,10 @@
     }
   }
 
+  .IssueIndexPage {
+    #load-more-issues-button:not(:empty) {
+      margin-block-start: var(--space-larger);
+    }
+  }
+
 }

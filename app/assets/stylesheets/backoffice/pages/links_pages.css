@@ -1,8 +1,8 @@
 @layer pages {
 
   .LinkIndexPage {
-    .LinkList {
-      margin-block-end: var(--space-larger);
+    #load-more-links-button:not(:empty) {
+      margin-block-start: var(--space-larger);
     }
   }
 

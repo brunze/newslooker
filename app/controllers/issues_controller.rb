@@ -1,13 +1,16 @@
 class IssuesController < ApplicationController
   def index
-    issues = Issue.order(created_at: :desc).limit(100)
+    pagy, issues = pagy_keyset(
+      Issue.order(created_at: :desc, id: :desc),
+      tuple_comparison: true,
+    )
 
-    render Backoffice::Issues::Pages::Index.new(issues:)
+    render Backoffice::Issues::Pages::Index.new(issues:, next_page_url: pagy_keyset_next_url(pagy))
   end
 
   def show
     issue = Issue.find(params[:id])
-    links = issue.links.limit(100) # TODO pagination
+    links = issue.links.limit(100) # newsletters don't typically have hundreds of links
 
     render Backoffice::Issues::Pages::Show.new(issue:, links:)
   end

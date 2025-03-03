@@ -40,7 +40,7 @@ class Index < ::Backoffice::Page
         halt the event
         fetch `${@href}` as html
           put the <#links-list .StandardLink/> in it at the end of <#links-list .LinkList/>
-          put <#load-more-links-button/> in it into <#load-more-links-button/>
+          put <#load-more-links-button */> in it into <#load-more-links-button/>
     HYPERSCRIPT
   end
 end
