@@ -1,7 +1,6 @@
 - disable_other_fieldsets = "\
   on change(target) \
-    for fieldset in <[pdc-kind]/> \
-      H.disableUnless(fieldset, fieldset@pdc-kind == target.value)"
+    add @disabled to <[pdc-kind]/> when it@pdc-kind != target.value"
 
 = scraper_kind_selector(required: true, wrapper_attributes: { script: disable_other_fieldsets })
 

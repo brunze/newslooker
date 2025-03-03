@@ -1,7 +1,6 @@
 - disable_other_fieldsets = "\
   on change(target) \
-    for fieldset in <[crawler-kind]/> \
-      H.disableUnless(fieldset, fieldset@crawler-kind == target.value)"
+    add @disabled to <[crawler-kind]/> when it@crawler-kind != target.value"
 
 = crawler_kind_selector(required: true, wrapper_attributes: { script: disable_other_fieldsets })
 
