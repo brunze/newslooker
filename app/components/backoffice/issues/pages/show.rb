@@ -40,15 +40,11 @@ class Show < Page
   end
 
   def render_list_of_links
-    render_slim <<~SLIM
-      - if links.any?
-        ul
-          - links.each do |link|
-            li = render ::Backoffice::Links::StandardLink.new(link:, hide: [:issue])
-      - else
-        .empty-state
-          = t(".no_links")
-    SLIM
+    render ::Backoffice::Links::List.new(
+      links:,
+      hide: [ :issue ],
+      empty_state_message: t(".no_links"),
+    )
   end
 end
 end

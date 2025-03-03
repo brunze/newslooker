@@ -6,6 +6,4 @@
   - surface.with_header_extras do
     a.show-all href=links_path = t("show_all")
 
-  .links
-    - links.each do |link|
-      = render standard_link(link)
+  = render ::Backoffice::Links::List.new(links:)

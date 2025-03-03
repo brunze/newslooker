@@ -5,12 +5,6 @@ module Search
       @links = links
     end
     attr_reader :links
-
-    private
-
-    def standard_link(link)
-      Backoffice::Links::StandardLink.new(link:)
-    end
   end
 end
 end

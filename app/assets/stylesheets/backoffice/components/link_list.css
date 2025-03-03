@@ -1,0 +1,13 @@
+@layer components {
+
+  .LinkList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-standard);
+
+    .empty-state {
+      opacity: 0.75;
+    }
+  }
+
+}
