@@ -26,5 +26,8 @@ module Newslooker
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # We'll rely on the HTTP Basic Auth configured globally in ApplicationController.
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end

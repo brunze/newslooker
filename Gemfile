@@ -38,6 +38,7 @@ gem "thruster", require: false
 
 gem "addressable"
 gem "excon"
+gem "mission_control-jobs"
 gem "mistral-ai"
 gem "neighbor"
 gem "nokogiri"
