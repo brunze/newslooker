@@ -17,7 +17,8 @@ class Show < Page
         tag.h1 newsletter.name
       end
       surface.with_header_extras do
-        link_to t("edit"), edit_newsletter_path(newsletter), class: "btn"
+        link_to(t("edit"), edit_newsletter_path(newsletter), class: "btn") +
+        button_to(t(".crawl_newsletter"), crawl_newsletter_path)
       end
       render newsletter_attributes
     end

@@ -50,7 +50,7 @@ class LinksScraper
   end
 
   def scrub_with_cleanup_regexes(blurb)
-    cleanup_regexes.each { blurb.sub!(it, "") }
+    cleanup_regexes.map { it.is_a?(Regexp) ? it : Regexp.new(it) }.each { blurb.sub!(it, "") }
   end
 
   class ActiveRecordType < ActiveRecord::Type::Json

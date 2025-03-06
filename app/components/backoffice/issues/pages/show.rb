@@ -22,6 +22,9 @@ class Show < Page
       surface.with_heading do
         tag.h1 issue.title
       end
+      surface.with_header_extras do
+        button_to t(".scrape_issue"), scrape_issue_path(issue)
+      end
       render issue_attributes
     end
   end

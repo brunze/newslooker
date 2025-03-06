@@ -41,6 +41,14 @@ class NewslettersController < ApplicationController
     render Backoffice::Newsletters::Pages::Index.new(newsletters:)
   end
 
+  def crawl
+    newsletter = Newsletter.find(params[:id])
+
+    CrawlNewsletterJob.perform_later(newsletter_id: newsletter.id)
+
+    redirect_to newsletter_path(newsletter)
+  end
+
   private
 
   def newsletter_params

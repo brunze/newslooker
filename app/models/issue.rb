@@ -21,9 +21,10 @@ class Issue < ApplicationRecord
   end
 
   def extract_links!(scraper_results)
-    scraped_links = scraper_results.links.map { Link.new(it) }
+    scraped_links = scraper_results.links.map { Link.new(it.merge(issue: self)) }
+    valid_links = scraped_links.select { it.url.present? && it.text.present? }
 
-    links.replace(updated_links(scraped_links))
+    links.replace(updated_links(valid_links))
     nil
   end
 

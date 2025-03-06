@@ -27,6 +27,7 @@ class Newsletter < ApplicationRecord
       .map do |issue_data|
         issues.build(issue_data)
       end
+      .sort_by(&:number)
   end
 
   def default_limits_for_next_crawl

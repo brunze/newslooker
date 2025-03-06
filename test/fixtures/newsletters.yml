@@ -2,20 +2,20 @@
 
 ruby_weekly:
   name: "Ruby Weekly"
-  oldest_issue_to_crawl: 42
+  oldest_issue_to_crawl: 738
   crawler:
     kind: "ArchivePageCrawler"
     archive_page_url: "https://rubyweekly.com/issues"
-    issue_link_selector: "a"
+    issue_link_selector: ".issue a"
     issue_number_regex: "/issues/(\\d+)"
   scraper:
     links_scraper:
-      link_block_selector: ".link-block"
+      link_block_selector: ".el-item td:has(.desc)"
       anchor_selector: "a"
-      blurb_selector: ".blurb"
+      blurb_selector: ".desc"
       cleanup_regexes:
-        - "\\A\\s*—\\s*"
+        - "\\A\\s*[——]*\\s*"
     publication_date_scraper:
       kind: "NodeTextPublicationDateScraper"
-      node_selector: ".publication-date"
+      node_selector: ".el-splitbar td:first-child p"
       extractor_regex: "(\\w+ \\d+, \\d+)\\z"

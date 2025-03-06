@@ -11,10 +11,17 @@ Rails.application.routes.draw do
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :newsletters, except: %i[destroy]
-  resources :issues, only: %i[index show]
+  resources :newsletters, except: %i[destroy] do
+    member do
+      post :crawl
+    end
+  end
+  resources :issues, only: %i[index show] do
+    member do
+      post :scrape
+    end
+  end
   resources :links, only: %i[index]
-
   resource :search, only: %i[show]
 
   root "home#show"

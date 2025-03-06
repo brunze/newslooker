@@ -10,8 +10,16 @@ class IssuesController < ApplicationController
 
   def show
     issue = Issue.find(params[:id])
-    links = issue.links.limit(100) # newsletters don't typically have hundreds of links
+    links = issue.links.order(created_at: :asc).limit(100) # newsletters don't typically have hundreds of links
 
     render Backoffice::Issues::Pages::Show.new(issue:, links:)
+  end
+
+  def scrape
+    issue = Issue.find(params[:id])
+
+    ScrapeIssueJob.perform_later(issue_id: issue.id)
+
+    redirect_to issue_path(issue)
   end
 end

@@ -32,10 +32,21 @@ class ArchivePageCrawler < Crawler
   end
 
   def gather_issue_data(anchor)
-    url = anchor.attr("href") or raise ExtractionError.new("no `href` found in anchor")
+    url = rebase_path(anchor.attr("href")) or raise ExtractionError.new("no `href` found in anchor")
     number = extract_issue_number(url) or raise ExtractionError.new("no issue number found in URL")
 
     { url:, number: }
+  end
+
+  def rebase_path(path)
+    if path.nil? || path.to_s.match?(/https?:\/\//)
+      path
+    else
+      base = Addressable::URI.parse(archive_page_url)
+      path = Addressable::URI.parse(path)
+
+      base.merge(path.to_hash.compact).to_s
+    end
   end
 
   def extract_issue_number(url)
@@ -48,4 +59,6 @@ class ArchivePageCrawler < Crawler
 
     ->(issue_data) { issue_data.fetch(:number).in?(issue_range) }
   end
+
+  class ExtractionError < RuntimeError; end
 end

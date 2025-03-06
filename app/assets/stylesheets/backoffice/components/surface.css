@@ -16,6 +16,9 @@
       }
       .extras {
         flex-grow: 0;
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-smaller);
       }
     }
 
