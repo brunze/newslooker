@@ -110,7 +110,8 @@ GEM
     ethon (0.16.0)
       ffi (>= 1.15.0)
     event_stream_parser (1.0.0)
-    excon (1.2.4)
+    excon (1.2.5)
+      logger
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.4.4)
