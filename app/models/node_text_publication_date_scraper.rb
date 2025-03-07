@@ -1,6 +1,5 @@
 class NodeTextPublicationDateScraper
-  include ActiveModel::Model
-  include ActiveModel::Attributes
+  include MiniModel
 
   attribute :kind, :string, default: name
   attribute :node_selector, :string
@@ -9,12 +8,6 @@ class NodeTextPublicationDateScraper
   validates :kind, presence: true, inclusion: { in: [ name ] }
   validates :node_selector, presence: true
   validates :extractor_regex, regexp: true, allow_nil: true
-
-  delegate :hash, :as_json, to: :attributes
-
-  def ==(other)
-    other.class == self.class && other.attributes == self.attributes
-  end
 
   def call(html)
     Scraper.to_nokogiri_doc(html)

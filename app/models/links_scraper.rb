@@ -1,6 +1,5 @@
 class LinksScraper
-  include ActiveModel::Model
-  include ActiveModel::Attributes
+  include MiniModel
 
   attribute :link_block_selector, :string
   attribute :anchor_selector, :string
@@ -11,12 +10,6 @@ class LinksScraper
   validates :anchor_selector, presence: true
   validates :blurb_selector, presence: true
   validates :cleanup_regexes, enumerable: { each: { regexp: true } }
-
-  delegate :hash, :as_json, to: :attributes
-
-  def ==(other)
-    other.class == self.class && other.attributes == self.attributes
-  end
 
   def call(html)
     Scraper.to_nokogiri_doc(html)

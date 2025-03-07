@@ -1,22 +1,11 @@
 class Scraper
-  include ActiveModel::Model
-  include ActiveModel::Attributes
+  include MiniModel
 
   attribute :links_scraper, LinksScraper.type
   attribute :publication_date_scraper, PublicationDateScraper.type
 
   validates :links_scraper, presence: true, nested: true
   validates :publication_date_scraper, presence: true, nested: true
-
-  delegate :hash, :as_json, to: :attributes
-
-  def ==(other)
-    other.class == self.class && other.attributes == self.attributes
-  end
-
-  def inspect
-    "#<#{self.class} #{as_json}>"
-  end
 
   def call(html)
     html = Scraper.to_nokogiri_doc(html)

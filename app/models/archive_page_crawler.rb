@@ -1,6 +1,5 @@
 class ArchivePageCrawler < Crawler
-  include ActiveModel::Model
-  include ActiveModel::Attributes
+  include MiniModel
 
   attribute :kind, :string, default: name
   attribute :archive_page_url, :string
@@ -11,12 +10,6 @@ class ArchivePageCrawler < Crawler
   validates :archive_page_url, presence: true, http_url: true
   validates :issue_link_selector, presence: true
   validates :issue_number_regex, presence: true, regexp: true
-
-  delegate :hash, :as_json, to: :attributes
-
-  def ==(other)
-    other.class == self.class && other.attributes == self.attributes
-  end
 
   def crawl(limits: default_crawl_limits, http: HTTPService.default)
     fetch_archive_page(http)
